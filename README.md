@@ -23,3 +23,34 @@ npx create-next-app blog
 
 完成后可以用yarn dev 测试是否安装成功
 
+
+# 02 项目搭建
+
+- 项目css   yarn add @zeit/next-css
+- 新建 next.config.js
+```
+const withCss = require('@zeit/next-css')
+
+if(typeof require !== 'undefined'){
+    require.extensions['.css']=file=>{}
+}
+
+module.exports = withCss({})
+```
+- 引入 UI库  yarn add  antd 
+- 按需加载 yarn add babel-plugin-import
+- 新建  .babelrc
+```
+{
+    "presets":["next/babel"],  //Next.js的总配置文件，相当于继承了它本身的所有配置
+    "plugins":[     //增加新的插件，这个插件就是让antd可以按需引入，包括CSS
+        [
+            "import",
+            {
+                "libraryName":"antd"
+            }
+        ]
+    ]
+}
+```
+
