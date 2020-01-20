@@ -75,6 +75,10 @@ module.exports = withCss({})
             </Col>
 ```
 
+# 04 主题首页的两栏布局
+
+左右两栏布局完成，
+复用组件，建立list.js， detailed.js
 
 
 
