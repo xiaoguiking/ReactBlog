@@ -54,3 +54,30 @@ module.exports = withCss({})
 }
 ```
 
+
+# 03 公共头部  导航部分 
+
+>  栅格化系统
+
+- xs  < 576px  响应式栅格
+- sm   >= 576px 
+- md   >= 768px 
+- lg   >= 992px  
+- xl    >=1200px
+- xxl   >= 1600px  
+
+> Header 组件 加入 适配 
+
+```
+            <Col xs={24} sm={24} md={10} lg={10} xl={10}>
+                <span className="header-logo">React Blog</span>
+                <span className="header-txt">专注前端学习 HTML+Css+JavaScript</span>
+            </Col>
+```
+
+
+
+
+
+
+

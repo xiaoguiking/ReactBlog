@@ -1,6 +1,6 @@
 import React from 'react'
 import Head from 'next/head'
-import {Button} from 'antd';
+import Header from  '../components/Header';
 
 // import Nav from '../components/nav'
 
@@ -9,7 +9,7 @@ const Home = () => (
     <Head>
       <title>Home</title>
     </Head>
-    <div><Button>123123</Button></div>
+  <Header></Header>
   </div>
 )
 
