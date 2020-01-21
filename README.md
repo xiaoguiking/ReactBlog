@@ -82,7 +82,12 @@ module.exports = withCss({})
 
 
 
-#05 List 组件制作博客列表
+# 05 List 组件制作博客列表 左侧
 
 index.js 中写入List组件完善，建立index.css
+
+# 06 编写博主介绍组件  右侧
+
+Author.js
+author.css
 
