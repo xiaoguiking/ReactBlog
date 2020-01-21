@@ -24,7 +24,7 @@ npx create-next-app blog
 完成后可以用yarn dev 测试是否安装成功
 
 
-# 02 项目搭建
+## 02 项目搭建
 
 - 项目css   yarn add @zeit/next-css
 - 新建 next.config.js
@@ -55,7 +55,7 @@ module.exports = withCss({})
 ```
 
 
-# 03 公共头部  导航部分 
+## 03 公共头部  导航部分 
 
 >  栅格化系统
 
@@ -75,19 +75,25 @@ module.exports = withCss({})
             </Col>
 ```
 
-# 04 主题首页的两栏布局
+## 04 主题首页的两栏布局
 
 左右两栏布局完成，
 复用组件，建立list.js， detailed.js
 
 
 
-# 05 List 组件制作博客列表 左侧
+## 05 List 组件制作博客列表 左侧
 
 index.js 中写入List组件完善，建立index.css
 
-# 06 编写博主介绍组件  右侧
+## 06 编写博主介绍组件  右侧
 
 Author.js
 author.css
+
+## 07 编写通用广告组件
+
+页面需要完善
+Advert.js
+advert.css
 
