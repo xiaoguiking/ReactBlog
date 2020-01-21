@@ -6,7 +6,7 @@ import { Row, Col, List, Icon } from 'antd';
 import '../public/style/pages/index.css';
 import Author  from '../components/Author';  //  头像组件
 import Advert from '../components/Advert';  // 广告组件
-
+import Footer from '../components/Footer';  // 底部组件
 // const header = () => (
 //   <div>最新日志</div>
 // )
@@ -53,6 +53,7 @@ const Home = () => {
             <Advert />
         </Col>
       </Row>
+      <Footer />
     </div>
 
   )

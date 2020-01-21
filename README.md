@@ -97,3 +97,8 @@ author.css
 Advert.js
 advert.css
 
+## 08 博客列表页面快制作 (以上是Blog 前台展示部分完成)
+
+- Footer 底部组件建立
+- 面包屑导航
+
