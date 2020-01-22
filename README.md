@@ -1,9 +1,9 @@
 # ReactBlog 个人博客项目搭建
 
+## Bug
+-  11 导航栏nav 对应的第一个有问题
 
 ###  01 项目简介
-
-
 
 博客前端界面的制作，前端主要完成功能是用户 的访问，文章列表和文章详情页面，因为Blog
 
@@ -106,7 +106,7 @@ advert.css
 
 - detailed.js
 
-### 10 博客详情页面制作-1  解析MarkDown 语法
+### 10 博客详情页面制作-2  解析MarkDown 语法
 
 - 引入markdown解析语法 (https://github.com/rexxars/react-markdown)
 - yarn add react-markdown
@@ -118,3 +118,23 @@ import ReactMarkdown from 'react-down';
     escape={false} //  是转换html
 />
 ```
+### 11博客页面制作-3 Markdown导航栏制作 ( 前台Blog 完成)
+
+列表对应的导航栏
+
+- yarn add markdown-navbar
+
+```
+import MarkNav from 'markdown-navbar';
+import 'markdown-navbar/dist/navbar.css';
+
+<MarkNav 
+    className="article-menu"        // 样式类名
+    source={markdown}           // 起始源
+    headingTopOffset={0}       // 锚点距离顶部的位置
+    ordered={true}              // 显示数字编码，默认是显示的，也就是true，设置为false就不显示
+/>
+```
+
+-  固钉Affix   是导航目录固定在页面
+-  
