@@ -1,10 +1,10 @@
 .header {
     background-color: #fff;
-    padding: .4rem;
+    padding: .7rem;
     overflow: hidden;
     height: 3.2rem;
-    border-bottom: 1px solid red;
-    /* border-bottom: 1px solid ccc; */
+    border-bottom: 1px solid #ccc;
+    margin-bottom: .5rem;
 }
 .header-logo {
     color: #1e90ff;
