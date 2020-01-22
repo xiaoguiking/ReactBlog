@@ -1,7 +1,7 @@
 # ReactBlog 个人博客项目搭建
 
 
-##  01 项目简介
+###  01 项目简介
 
 
 
@@ -24,7 +24,7 @@ npx create-next-app blog
 完成后可以用yarn dev 测试是否安装成功
 
 
-## 02 项目搭建
+### 02 项目搭建
 
 - 项目css   yarn add @zeit/next-css
 - 新建 next.config.js
@@ -55,7 +55,7 @@ module.exports = withCss({})
 ```
 
 
-## 03 公共头部  导航部分 
+### 03 公共头部  导航部分 
 
 >  栅格化系统
 
@@ -75,33 +75,46 @@ module.exports = withCss({})
             </Col>
 ```
 
-## 04 主题首页的两栏布局
+### 04 主题首页的两栏布局
 
 左右两栏布局完成，
 复用组件，建立list.js， detailed.js
 
 
 
-## 05 List 组件制作博客列表 左侧
+### 05 List 组件制作博客列表 左侧
 
 index.js 中写入List组件完善，建立index.css
 
-## 06 编写博主介绍组件  右侧
+### 06 编写博主介绍组件  右侧
 
 Author.js
 author.css
 
-## 07 编写通用广告组件
+### 07 编写通用广告组件
 
 页面需要完善
 Advert.js
 advert.css
 
-## 08 博客列表页面快制作 
+### 08 博客列表页面快制作 
 
 - Footer 底部组件建立
 - 面包屑导航
 
-## 09 博客详情页面制作-1 编写页面基本结构
+### 09 博客详情页面制作-1 编写页面基本结构
 
 - detailed.js
+
+### 10 博客详情页面制作-1  解析MarkDown 语法
+
+- 引入markdown解析语法 (https://github.com/rexxars/react-markdown)
+- yarn add react-markdown
+```
+import ReactMarkdown from 'react-down';
+
+<ReactMarkdown 
+    source={markdown} 
+    escape={false} //  是转换html
+/>
+```
