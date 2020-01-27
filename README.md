@@ -137,4 +137,26 @@ import 'markdown-navbar/dist/navbar.css';
 ```
 
 -  固钉Affix   是导航目录固定在页面
--  
+
+### 12中台搭建 egg.js
+
+介绍Egg.js(底层是koa2搭建)
+Github地址：https://github.com/eggjs/egg
+- 根文件夹（ReactBlog）建立一个service 的中台文件夹
+- 全局安装egg.js脚手架工具egg-init;
+`
+npm i egg-init-g
+`
+- 脚手架自动生成项目的基本结构
+`
+egg-init --type=simple
+`
+- 安装相关的依赖包
+`
+npm install
+`
+- 安装完成启动服务查看结果
+`
+npm run dev
+open http://localhost:7001
+`
