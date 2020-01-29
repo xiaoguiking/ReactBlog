@@ -192,3 +192,36 @@ router.get('/list',controller.home.list);
 
 效果 http://127.0.0.1:7001/list
 ```
+
+
+### 14中台搭建03 RESTFul api 设计和路由配置
+
+
+有数据的获得和业务逻辑的操作都是通过中台实现的，也就是说中台只提供接口，这里的设计我们采用RESTful的规则，让egg为前端提供Api接口，实现中台主要的功能。
+
+约束的请求方式和对应操作
+
+- GET（SELECT）:从服务端获取资源，获取一项或者多项
+- POST（ CREATE）: 在服务端新建资源创建
+- PUT（UPDATE）:在服务端更新资源（客户端提供改变后的完整资源）
+- DELETE（DELETE）： 从服务器删除资源
+
+在 controller下建立admin    default   （home.js)
+同级目录下建立router文件夹 包含 admin.js   default.js  
+
+```
+router default.js
+
+module.exports =  app => {
+    const {router, controller}  = app;
+    router.get('/default/index',controller.default.home.index);
+}
+```
+
+```
+router.js    路由汇总引入
+
+module.exports = app => {
+    require('/router/default')(app);
+}
+```
