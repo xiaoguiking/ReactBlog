@@ -138,10 +138,23 @@ import 'markdown-navbar/dist/navbar.css';
 
 -  固钉Affix   是导航目录固定在页面
 
-### 12中台搭建 egg.js
+### 12中台搭建 egg.js 01）
 
 介绍Egg.js(底层是koa2搭建)
 Github地址：https://github.com/eggjs/egg
+官方地址： https://eggjs.org/zh-cn/tutorials/index.html
+
+####  特性
+- 提供基于Egg定制上层框架的能力
+- 高度可扩展的插件机制
+- 内置多进程管理
+- 基于koa开发，性能优异
+- 框架稳定，测试覆盖率高
+- 渐进式开发
+
+
+####  搭建流程
+
 - 根文件夹（ReactBlog）建立一个service 的中台文件夹
 - 全局安装egg.js脚手架工具egg-init;
 `
@@ -160,3 +173,22 @@ npm install
 npm run dev
 open http://localhost:7001
 `
+
+### 13 中台搭建02  目录结构和约定规范
+
+实现list demo
+```
+home.js
+
+async list() {
+    const { ctx } = this;
+    ctx.body = '<h1>list 页面</h1>'；
+}
+
+
+router.js
+
+router.get('/list',controller.home.list);
+
+效果 http://127.0.0.1:7001/list
+```
