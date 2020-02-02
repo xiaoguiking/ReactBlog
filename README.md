@@ -225,3 +225,59 @@ module.exports = app => {
     require('/router/default')(app);
 }
 ```
+
+### 15：中台搭建04-Egg.js中连接mysql数据库(安装环境有坑点)
+
+Egg.js 中使用mysql数据库
+
+> egg-mysql模块安装
+
+- npm i egg-mysql --save  或者 yarn add egg-mysql
+- 插件配置 /server/config/plugin.js
+```
+exports.mysql = {
+    enable: true,
+    package: 'egg-mysql'
+}
+```
+>  数据库连接配置
+
+```
+打开/config/config/default.js 写好下面的配置
+（https://www.npmjs.com/package/egg-mysql）
+首先安装mqsql的服务器或者主机， 目前使用的是phyStudy 集成开发环境
+
+注意: 把exports 改成config
+exports.mysql = {
+  // database configuration
+  client: {
+    // host 修改
+    host: 'mysql.com',
+    // port
+    port: '3306',
+    // username  修改
+    user: 'test_user', 
+    // password  修改
+    password: 'test_password',
+    // database  修改 注意 一定要和数据库名字对应填写
+    database: 'test',    
+  },
+  // load into app, default is open
+  app: true,
+  // load into agent, default is close
+  agent: false,
+};
+```
+>  创建数据库
+
+- 打开PHPStudy 点击 mysql管理器 点击 Mysql-front
+-  新建数据库 react_blog
+-  新建数据表 blog_content
+-  数据表下添加字段： title， type用  VarChar，introduce， content 用 text
+
+>  使用get 进行表的查询
+
+打开 /app/controller/default/home.js 改写index 方法
+```
+打开测试http://127.0.0.1:7001/default/index
+```
