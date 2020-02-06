@@ -281,3 +281,63 @@ exports.mysql = {
 ```
 打开测试http://127.0.0.1:7001/default/index
 ```
+
+
+### 第25节：后台开发1-开发环境搭建
+
+
+
+\- 建立后台脚手架 
+
+
+
+  *> create-react-app admin*
+
+\- 进入admin文件夹里面， 安装antd UI 框架
+
+  *> yarn add antd*
+
+
+
+*> 安装bug（坑点）*
+
+> bug01
+```
+A template was not provided. This is likely because you're using an outdated version of create-react-app.
+
+Please note that global installs of create-react-app are no longer supported.
+
+当时只有package.json 等文件，文件不全
+
+解决方案
+npm uninstall -g create-react-app （进行卸载）
+
+```
+> bug2 使用上述命令删除不干净文件夹直接使用npx 创建
+```
+npm ERR! code ENOLOCAL
+npm ERR! Could not install from "Files\nodejs\node_cache\_npx\17244" as it doesnot contain a package.json file.
+
+npm ERR! A complete log of this run can be found in:
+npm ERR!     C:\Program Files\nodejs\node_cache\_logs\2018-10-24T06_13_21_695Z-debug.log
+安装 prefix@latest 失败，错误代码：1
+npm ERR! code ENOLOCAL
+npm ERR! Could not install from "Files\nodejs\node_cache\_npx\15084" as it doesnot contain a package.json file.
+
+解决方案：
+删除对应的node.js 文件里面全局安装的create-react-app 文件夹在写 以下命令
+npm install -g create-react-app 
+create-react-app myApp
+```
+
+- 通过 npx 创建：
+
+npx create-react-app my-app
+
+- 通过 npm 创建：
+
+npm init react-app my-app
+
+- 通过 yarn(0.25+) 创建：
+
+yarn create react-app my-app
