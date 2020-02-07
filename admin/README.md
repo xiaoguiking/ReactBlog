@@ -66,3 +66,88 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `yarn build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
+
+### 第25节：后台开发1-开发环境搭建
+
+
+
+- 建立后台脚手架 
+
+  > create-react-app admin*
+
+- 进入admin文件夹里面， 安装antd UI 框架
+
+  > yarn add antd*
+
+
+> 安装bug（坑点）*
+
+    
+> bug01
+
+```
+A template was not provided. This is likely because you're using an outdated version of create-react-app.
+
+Please note that global installs of create-react-app are no longer supported.
+
+当时只有package.json 等文件，文件不全
+
+解决方案
+npm uninstall -g create-react-app （进行卸载）
+
+```
+> bug2 使用上述命令删除不干净文件夹直接使用npx 创建
+```
+npm ERR! code ENOLOCAL
+npm ERR! Could not install from "Files\nodejs\node_cache\_npx\17244" as it doesnot contain a package.json file.
+
+npm ERR! A complete log of this run can be found in:
+npm ERR!     C:\Program Files\nodejs\node_cache\_logs\2018-10-24T06_13_21_695Z-debug.log
+安装 prefix@latest 失败，错误代码：1
+npm ERR! code ENOLOCAL
+npm ERR! Could not install from "Files\nodejs\node_cache\_npx\15084" as it doesnot contain a package.json file.
+
+解决方案：
+删除对应的node.js 文件里面全局安装的create-react-app 文件夹在写 以下命令
+npm install -g create-react-app 
+create-react-app myApp
+```
+
+- 通过 npx 创建：
+
+        npx create-react-app my-app
+
+- 通过 npm 创建：
+
+npm init react-app my-app
+
+- 通过 yarn(0.25+) 创建：
+
+    yarn create react-app my-app
+
+> 其他修改细节
+只留下/src/index.js文件，然后把里边的代码删减成下面的样子
+```
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+ReactDOM.render(<App />, document.getElementById('root'));
+```
+
+
+### 第26节：后台开发2-页面路由配置
+
+- 安装路由管理包 
+    > yarn add react-router-dom
+- src 建立Pages文件夹 包含Login.js  Main.js
+- 在Main.js 建立路由并且抛出到 index.js
+
+### 第27节：后台开发3-登录页面UI制作
+
+src/static/css/Login.css
+
+`import { Card, Input, Icon,Button ,Spin } from 'antd';`
+引入Spin 加载组件
+isLoading主要用于控制Spin组件是否进入加载状态，进入加载状态可以有效防止重复提交
+
