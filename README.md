@@ -138,7 +138,7 @@ import 'markdown-navbar/dist/navbar.css';
 
 -  固钉Affix   是导航目录固定在页面
 
-### 12中台搭建 egg.js 01）
+### 12中台搭建 egg.js 01）service
 
 介绍Egg.js(底层是koa2搭建)
 Github地址：https://github.com/eggjs/egg
@@ -283,3 +283,75 @@ exports.mysql = {
 ```
 
 
+### 第16节：中台搭建5-数据库设计和首页文章接口编写(bug 修复)
+
+数据库建立设计
+
+> 数据库中的表建立
+
+直接使用MySQL-front工具建立使用的表，建立两张表type和article表，表结构如下:
+
+type表（文章类型表）
+
+- id : 类型编号 int类型
+- typeName: 文章类型名称 varchar类型
+- orderNum: 类型排序编号 int类型
+- 建立好表之后，我们再写入一条数据，编号为1，名称是视频教程，排列需要为1
+
+article表（文章内容表）
+
+- id : 文章编号 int类型
+- type_id : 文章类型编号 int类型
+- title : 文章标题，varchar类型
+- article_cointent : 文章主体内容，text类型
+- introduce： 文章简介，text类型
+- addTime : 文章发布时间，int(11)类型
+- view_count ：浏览次数， int类型
+
+在/app/contoller/default/home.js文件夹中，写一个getArticleList的方法，
+
+```
+```
+
+需要配置一下路由（router），打开/app/router/default.js,新建立一个get形式的路由配置，代码如下：
+```
+module.exports = app => {
+  const { router, controller } = app;
+  router.get('/default/index', controller.default.home.index)
+  router.get('/default/getArticleList', controller.default.home.getArticleList)
+}
+
+```
+
+> bug
+
+```
+写法报错
+this.ctx.body = {
+    data: results;
+}
+
+改为 
+this.ctx.body = results;
+```
+```
+[
+{
+"id": 1,
+"title": "React01",
+"introduce": "入我相思门，知我相思苦。相识相见知何日，此时此夜难为情。\n\n情到深处人孤独，爱到无语，痛到泪流。假如人生不曾相逢，我不过是浩渺天地的一粒微尘，湮没在茫茫人海中。\n\n依旧是那个为了生活，日夜奔波忙忙碌碌的我，只因为遇见了你，我的生命才有了美丽的传奇。\n\n是你给了我痛苦，也给了我甜蜜，给了我幻想，也给了我绝望！如果有来生，我们会不会再重逢？不负如来不负卿！",
+"addTime": null,
+"view_count": 0,
+"typeName": null
+},
+{
+"id": 2,
+"title": "React02",
+"introduce": null,
+"addTime": null,
+"view_count": 1,
+"typeName": null
+}
+]
+
+```
