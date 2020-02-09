@@ -151,3 +151,15 @@ src/static/css/Login.css
 引入Spin 加载组件
 isLoading主要用于控制Spin组件是否进入加载状态，进入加载状态可以有效防止重复提交
 
+
+### 第28节：后台开发4-UI框架的Layout搭建
+
+> Layout 布局
+
+API地址：https://ant.design/components/layout-cn/
+
+这步完成后，还需要在/src/static/css文件夹下建立一个AdminIndex.css文件，复制下面的代码
+本结主要是将class有状态组件变成hooks函数式组件的改写
+
+
+### 第29节：后台开发5-添加文章页面制作1
