@@ -51,7 +51,7 @@ npm install
 `
 - 安装完成启动服务查看结果
 `
-npm run dev 或者yarn dev
+npm run dev 或者yarn dev(启动方式)
 open http://localhost:7001
 `
 

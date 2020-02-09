@@ -20,8 +20,8 @@ class HomeController extends Controller {
       'FROM article LEFT JOIN type ON article.type_id = type.Id';
 
     const results = await this.app.mysql.query(sql);
-
-    this.ctx.body = results;
+    //  前台数据交互可能出现问题点
+    this.ctx.body = { data: results };
   }
 
 }
@@ -38,4 +38,4 @@ module.exports = HomeController;
 //   FROM article LEFT JOIN type ON article.type_id = typeName.Id
 //   `;
 //   // this.ctx.body = result;
-// }  
+// }

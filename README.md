@@ -334,13 +334,15 @@ this.ctx.body = {
 改为 
 this.ctx.body = results;
 ```
+http://127.0.0.1:7001/default/getArticleList。如果能出现结果，说明我们已经完成了数据和接口的开发。
 ```
-[
+{
+"data": [
 {
 "id": 1,
 "title": "React01",
 "introduce": "入我相思门，知我相思苦。相识相见知何日，此时此夜难为情。\n\n情到深处人孤独，爱到无语，痛到泪流。假如人生不曾相逢，我不过是浩渺天地的一粒微尘，湮没在茫茫人海中。\n\n依旧是那个为了生活，日夜奔波忙忙碌碌的我，只因为遇见了你，我的生命才有了美丽的传奇。\n\n是你给了我痛苦，也给了我甜蜜，给了我幻想，也给了我绝望！如果有来生，我们会不会再重逢？不负如来不负卿！",
-"addTime": null,
+"addTime": 1213,
 "view_count": 0,
 "typeName": null
 },
@@ -348,10 +350,34 @@ this.ctx.body = results;
 "id": 2,
 "title": "React02",
 "introduce": null,
-"addTime": null,
+"addTime": 123123,
 "view_count": 1,
 "typeName": null
 }
 ]
+}
 
+``` 
+### 第17节：前中台结合1-前台读取首页文章列表（bug 点）
+
+> bug  前台和中台关于数据请求结构问题
+
+安装 axios
+
+- cd blog 进入blog 文件夹(前台)
+- yarn add axios 数据请求
+
+>  新建getInitialProps 方法获取数据
+/blog/pages/index.js
+```
+    Home.getInitial = async() => {
+        const promise = new Promise((resolve) => {
+            axios('http://127.0.0.1:7001/default/getArticleList').then((resolve)=> {
+                console.log(res.data,'=============>请求数据');
+                resolve(res.data);
+            })
+            .catch((error)=> {console.log(error+'请求数据报错');})
+        })
+        return await promise;
+    }
 ```
