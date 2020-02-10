@@ -7,6 +7,47 @@ const {TextArea}  = Input;
 const {Option} = Select;
 
 const AddArticle = () => {
+	
+	//  添加文章页面的整体 业务逻辑
+	   const [articleId,setArticleId] = useState(0)  // 文章的ID，如果是0说明是新增加，如果不是0，说明是修改
+	   const [articleTitle,setArticleTitle] = useState('')   //文章标题
+	   const [articleContent , setArticleContent] = useState('')  //markdown的编辑内容
+	   const [markdownContent, setMarkdownContent] = useState('预览内容') //html内容
+	   const [introducemd,setIntroducemd] = useState()            //简介的markdown内容
+	   const [introducehtml,setIntroducehtml] = useState('等待编辑') //简介的html内容
+	   const [showDate,setShowDate] = useState()   //发布日期
+	   const [updateDate,setUpdateDate] = useState() //修改日志的日期
+	   const [typeInfo ,setTypeInfo] = useState([]) // 文章类别信息
+	   const [selectedType,setSelectType] = useState(1) //选择的文章类别
+	
+	// 设置marked 声明完成后需要对marked进行基本的设置
+	marked.setOptions({
+    renderer: new marked.Renderer(),
+    gfm: true,
+    pedantic: false,
+    sanitize: false,
+    tables: true,
+    breaks: false,
+    smartLists: true,
+    smartypants: false,
+  }); 
+	
+	// 编写实时预览方法 文章内容
+	
+	const changeContent = (e) => {
+		setArticleContent(e.target.value);
+		let html = marked(e.target.value);
+		setMarkdownContent(html);
+	}
+	
+	// 文章简介
+	
+	const changeIntroduce = (e) => {
+		setIntroducemd(e.target.value);
+		let html = marked(e.target.value);
+		setIntroducehtml(html);
+	}
+	
     return (
         <div>
         <Row gutter={5}>
@@ -25,10 +66,10 @@ const AddArticle = () => {
                 <br />
                 <Row gutter={10}>
                     <Col span={12}>
-                        <TextArea  placeholder="文章内容" className="markdown-content" rows={35}/>
+                        <TextArea  placeholder="文章内容" className="markdown-content" rows={35} onChange={changeContent}/>
                     </Col>
                     <Col span={12}>
-                        <div className="show-html"></div>
+                        <div className="show-html" dangerouslySetInnerHTML={{__html:markdownContent}}></div>
                     </Col>
                 </Row>
             </Col>
@@ -41,10 +82,10 @@ const AddArticle = () => {
 				</Row>
 				<Col span={24}>
 				<br />
-					<TextArea placeholder="文章简介" rows={4}>
+					<TextArea placeholder="文章简介" rows={4} onChange={changeIntroduce}>
 					</TextArea>
 					<br /><br />
-					<div className="introduce-html">文章简介: 编辑</div>
+					<div className="introduce-html" dangerouslySetInnerHTML={{__html: '文章简介:'+introducehtml}}></div>
 				</Col>
 				<Col span={12}>
 					 <div className="date-select">

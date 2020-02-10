@@ -244,8 +244,57 @@ import {Route} from 'react-dom-router';
 
 
 
-### 第30节：后台开发6-添加文章页面制作2(Av68325396,P30)
+### 第30节：后台开发6-添加文章页面制作2
 
 - 暂存和发布按钮
 - 编写文章简介
 - 编写时间发布
+
+
+### 第31节：后台开发7-Markdown转HTML （marked ， 语法解析写入	）
+
+ > bug
+```
+ Class constructor Renderer cannot be invoked without 'new'
+ 如果没有“ new”，则不能调用类构造函数Renderer
+ 
+ 
+```
+
+> 设置marked 声明完成后需要对marked进行基本的设置
+
+
+```
+import marked from 'marked';
+	marked.setOptions({
+    renderer: new marked.Renderer(),  //   加入new 改正错误
+    gfm: true,
+    pedantic: false,
+    sanitize: false,
+    tables: true,
+    breaks: false,
+    smartLists: true,
+    smartypants: false,
+  }); 
+```
+
+> 编写实时预览方法
+
+```
+	   const [articleContent , setArticleContent] = useState('')  //markdown的编辑内容
+	   const [markdownContent, setMarkdownContent] = useState('预览内容') //html内容
+const changContent = (e) => {
+ 	setArticleContent(e.target.value);
+	let html = marked(e.target.value);
+	setMarkdownContent(html);
+}
+
+
+		<Col span={12}>
+			<TextArea  placeholder="文章内容" className="markdown-content" rows={35} onChange={changeContent}/>
+		</Col>
+		<Col span={12}>
+			<div className="show-html" dangerouslySetInnerHTML={{__html:markdownContent}}></div>
+		</Col>
+```
+
