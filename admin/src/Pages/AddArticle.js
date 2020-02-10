@@ -32,7 +32,37 @@ const AddArticle = () => {
                     </Col>
                 </Row>
             </Col>
-            <Col span={6}>123</Col>
+            <Col span={6}>
+				<Row>
+					<Col span={24}>
+						<Button size="large">暂存文章</Button>&nbsp;
+						<Button size="large" type="primary	">发布文章</Button>
+					</Col>
+				</Row>
+				<Col span={24}>
+				<br />
+					<TextArea placeholder="文章简介" rows={4}>
+					</TextArea>
+					<br /><br />
+					<div className="introduce-html">文章简介: 编辑</div>
+				</Col>
+				<Col span={12}>
+					 <div className="date-select">
+					        <DatePicker
+					            placeholder="发布日期"
+					            size="large"  
+					        />
+					  </div>
+				</Col>
+				<Col span={12}>
+					 <div className="date-select">
+					        <DatePicker
+					            placeholder="修改日期"
+					            size="large"  
+					        />
+					  </div>
+				</Col>
+			</Col>
         </Row>
     </div>
     )

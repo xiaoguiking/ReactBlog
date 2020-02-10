@@ -102,7 +102,7 @@ const Home = (list) => {
 
 Home.getInitialProps = async () => {
   const promise = new Promise((resolve) => {
-    axios('http://127.0.0.1:7002/default/getArticleList').then((res) => {
+    axios('http://127.0.0.1:7001/default/getArticleList').then((res) => {
       console.log(res.data, '请求得到res数据');
       resolve(res.data);
     })
