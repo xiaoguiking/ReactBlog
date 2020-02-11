@@ -1,5 +1,5 @@
 
-## Available Scripts
+## Available Scripts  admin（后台管理系统）
 
 In the project directory, you can run:
 
@@ -43,7 +43,7 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 > 安装bug（坑点）*
 
-    
+
 > bug01
 
 ```
@@ -99,6 +99,7 @@ ReactDOM.render(<App />, document.getElementById('root'));
 ### 第26节：后台开发2-页面路由配置
 
 - 安装路由管理包 
+    
     > yarn add react-router-dom
 - src 建立Pages文件夹 包含Login.js  Main.js
 - 在Main.js 建立路由并且抛出到 index.js

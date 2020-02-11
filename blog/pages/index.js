@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import '../public/style/pages/comm.css';
 import { Row, Col, List, Icon } from 'antd';
 import axios from 'axios';    // 请求数据
+import Link from 'next/link';
 import '../public/style/pages/index.css';
 import Author from '../components/Author';  //  头像组件
 import Advert from '../components/Advert';  // 广告组件
@@ -76,7 +77,11 @@ const Home = (list) => {
               dataSource={mylist}
               renderItem={item => (
                 <List.Item>
-                  <div className="list-title">{item.title}</div>
+                  <div className="list-title">
+				  <Link href={{pathname:'/detailed', query:{id: item.id}}}>
+				  <a>{item.title}</a>
+				  </Link>
+				  </div>
                   <div className="list-icon">
                     <span><Icon type="calendar" /> {item.addTime}</span>
                     <span><Icon type="folder" /> {item.typeName}</span>

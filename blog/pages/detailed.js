@@ -3,11 +3,12 @@ import Head from 'next/head'
 import Header from '../components/Header';
 import '../public/style/pages/comm.css';
 import { Row, Col, Icon, Breadcrumb, Affix } from 'antd';
+import Link from 'next/link';
 import Author from '../components/Author';
 import Advert from '../components/Advert';
 import Footer from '../components/Footer';
 import '../public/style/pages/detailed.css';
-
+import axios from 'axios';
 
 import ReactMarkdown from 'react-markdown';  // 引入markdown 解析
 import MarkNav from 'markdown-navbar';  //  引入导航栏木插件
@@ -48,6 +49,8 @@ const Detailed = () => {
   '>> bbbbbbbbb\n' +
   '>>> cccccccccc\n\n'+
   '``` var a=11; ```'
+  
+  
   return (
     <div>
       <Head>
@@ -64,7 +67,7 @@ const Detailed = () => {
             </Breadcrumb>
           </div>
           <div>
-            <div className="detailed-title">React Blog视频实战 前端开发</div>
+            <div className="list-title">React Blog视频实战 前端开发</div>
             <div className="list-icon center">
               <span><Icon type="calendar" />2020-01-22</span>
               <span><Icon type="folder" />视频教程</span>
@@ -95,5 +98,18 @@ const Detailed = () => {
   )
 }
 
+//  获取id详情的方法
+Detailed.getInitialProps = async (context) => {
+	console.log(context.query.id);
+	
+	let id = context.query.id;
+	const promise = new Promise((resolve) => {
+		axios('http://127.0.0.1:7001/default/getArticleById').then((res)=> {
+			console.log(res,'res');
+			resolve(res.data.data[0]);
+		})
+	})
+	return await promise;
+}
 
-export default Detailed
+export default Detailed;

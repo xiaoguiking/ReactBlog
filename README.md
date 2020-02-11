@@ -1,9 +1,6 @@
 # ReactBlog 个人博客项目搭建
 
-## Bug
--  11 导航栏nav 对应的第一个有问题
-
-###  01 项目简介
+### 01 项目简介
 
 博客前端界面的制作，前端主要完成功能是用户 的访问，文章列表和文章详情页面，因为Blog
 
@@ -22,6 +19,7 @@ npm install -g  create-next-app
 npx create-next-app blog
 
 完成后可以用yarn dev 测试是否安装成功
+
 
 
 ### 02 项目搭建
@@ -55,6 +53,7 @@ module.exports = withCss({})
 ```
 
 
+
 ### 03 公共头部  导航部分 
 
 >  栅格化系统
@@ -75,6 +74,8 @@ module.exports = withCss({})
             </Col>
 ```
 
+
+
 ### 04 主题首页的两栏布局
 
 左右两栏布局完成，
@@ -86,10 +87,14 @@ module.exports = withCss({})
 
 index.js 中写入List组件完善，建立index.css
 
+
+
 ### 06 编写博主介绍组件  右侧
 
 Author.js
 author.css
+
+
 
 ### 07 编写通用广告组件
 
@@ -97,14 +102,20 @@ author.css
 Advert.js
 advert.css
 
+
+
 ### 08 博客列表页面快制作 
 
 - Footer 底部组件建立
 - 面包屑导航
 
+
+
 ### 09 博客详情页面制作-1 编写页面基本结构
 
 - detailed.js
+
+
 
 ### 10 博客详情页面制作-2  解析MarkDown 语法
 
@@ -118,7 +129,15 @@ import ReactMarkdown from 'react-down';
     escape={false} //  是转换html
 />
 ```
+
+
 ### 11博客页面制作-3 Markdown导航栏制作 ( 前台Blog 完成)
+
+> bug
+>
+> 导航栏nav 对应的第一个有问题
+
+
 
 列表对应的导航栏
 
@@ -136,9 +155,13 @@ import 'markdown-navbar/dist/navbar.css';
 />
 ```
 
--  固钉Affix   是导航目录固定在页面
+- 固钉Affix   是导航目录固定在页面
 
-### 12中台搭建 egg.js 01）service
+  
+
+### 12中台搭建 egg.js( 01）service
+
+
 
 介绍Egg.js(底层是koa2搭建)
 Github地址：https://github.com/eggjs/egg
@@ -174,6 +197,8 @@ npm run dev
 open http://localhost:7001
 `
 
+
+
 ### 13 中台搭建02  目录结构和约定规范
 
 实现list demo
@@ -192,6 +217,7 @@ router.get('/list',controller.home.list);
 
 效果 http://127.0.0.1:7001/list
 ```
+
 
 
 ### 14中台搭建03 RESTFul api 设计和路由配置
@@ -225,6 +251,8 @@ module.exports = app => {
     require('/router/default')(app);
 }
 ```
+
+
 
 ### 15：中台搭建04-Egg.js中连接mysql数据库(安装环境有坑点)
 
@@ -283,6 +311,7 @@ exports.mysql = {
 ```
 
 
+
 ### 第16节：中台搭建5-数据库设计和首页文章接口编写(bug 修复)
 
 数据库建立设计
@@ -311,6 +340,7 @@ article表（文章内容表）
 在/app/contoller/default/home.js文件夹中，写一个getArticleList的方法，
 
 ```
+
 ```
 
 需要配置一下路由（router），打开/app/router/default.js,新建立一个get形式的路由配置，代码如下：
@@ -334,7 +364,9 @@ this.ctx.body = {
 改为 
 this.ctx.body = results;
 ```
+
 http://127.0.0.1:7001/default/getArticleList。如果能出现结果，说明我们已经完成了数据和接口的开发。
+
 ```
 {
 "data": [
@@ -357,7 +389,10 @@ http://127.0.0.1:7001/default/getArticleList。如果能出现结果，说明我
 ]
 }
 
-``` 
+```
+
+
+
 ### 第17节：前中台结合1-前台读取首页文章列表（bug 点）
 
 > bug  前台和中台关于数据请求结构问题
@@ -437,4 +472,109 @@ const Home = (list) =>{
 
 > 修改时间戳为日期格式
 
+`service/app/controller/default/home.js`
+
+```
+    let sql = 'SELECT article.id as id,' +
+      'article.title as title,' +
+      'article.introduce as introduce,' +
+	  // 原代码
+      // 'article.addTime as addTime,' +
+	  // 新代码修改 时间戳为日期格式
+	  "From_UNIXTIME(article.addTime,'%Y-%m-%d %H:%i:%s')as addTime,"+
+      'article.view_count as view_count ,' +
+      '.type.typeName as typeName ' +
+      'FROM article LEFT JOIN type ON article.type_id = type.Id';
+
+    const results = await this.app.mysql.query(sql);
+    //  前台数据交互可能出现问题点
+    this.ctx.body = { data: results };
+```
+
+
+
+
+
+
+### 第18节：前中台结合2-文章详细页面接口制作  (通过id跳转到指定的详情页)
+
+>  编写中台详细接口
+
+页面： `servie/app/controller/default/home.js`
+```
+获取指定的id详情页方法
+  async getArticleById(){
+	   //先配置路由的动态传值，然后再接收值
+	  let id = this.ctx.params.id;
+	  let sql = 'SELECT article.id as id,'+
+	         'article.title as title,'+
+	         'article.introduce as introduce,'+
+			 // 文章内容
+	         'article.article_content as article_content,'+
+	         "FROM_UNIXTIME(article.addTime,'%Y-%m-%d %H:%i:%s' ) as addTime,"+
+	         'article.view_count as view_count ,'+
+	         'type.typeName as typeName ,'+
+			 // 文章id查询
+	         'type.id as typeId '+
+	         'FROM article LEFT JOIN type ON article.type_id = type.Id '+
+	         'WHERE article.id='+id
+	 
+			const result = await this.app.mysql.query(sql);
+			this.ctx.body = {data: result}  
+	 
+  }
+
+```
+
+
+>  添加详情接口路由
+
+页面： `service/app/router/default.js`
+```
+router.get('default/getArticleById', controller.default.home.getArticleById);
+```
+
+
+> 编写前台导航链接
+
+页面  `blog/pages/index.js`
+
+```
+import Link from 'next/link';
+				  <div className="list-title">
+				  <Link href={{pathname:'/detailed', query:{id: item.id}}}>
+				  <a>{item.title}</a>
+				  </Link>
+				  </div>
+```
+
+
+
+
+
+> 详情页从接口获取数据
+
+页面：`blog/pages/index.js`
+
+```
+//  获取id详情的方法
+Detailed.getInitialProps = async (context) => {
+	console.log(context.query.id);
+	
+	let id = context.query.id;
+	const promise = new Promise((resolve) => {
+		axios('http://127.0.0.1:7001/default/getArticleById').then((res)=> {
+			console.log(res,'res');
+			resolve(res.data.data[0]);
+		})
+	})
+	return await promise;
+}
+```
+
+
+
+> 跨域问题
+
+![image-20200211204536329](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20200211204536329.png)
 
