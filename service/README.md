@@ -454,3 +454,98 @@ Detailed.getInitialProps = async (context) => {
 
 ![image-20200211204536329](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20200211204536329.png)
 
+
+
+### 第19节：解决Egg.js跨域问题和Bug调试（重点 注意问题出在中台  403）
+
+> 安装egg-cors  中台解决跨域
+
+
+
+- 安装使用`yarn add egg-cors`（如果npm也报错使用 `npm i egg-cors --save`）
+
+- 配置模块引入文件  `service/config/plugin.js`
+
+  ```
+  exports.cors: {
+      enable: true,
+      package: 'egg-cors'
+  }
+  ```
+
+- 配置允许域名请求方法跨域访问
+
+  ```
+  　config.security = {
+  　　　　csrf: {
+  　　　　　　enable: false
+  　　　　},
+  　　　　domainWhiteList: [ '*' ]
+  　　};
+   config.cors = {
+      origin: '*',
+      allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS'
+  };
+  ```
+
+  ```
+  如果只是想让3000 接口方案  使用下面的配置
+  config.security = {
+  　　　　csrf: {enable: false},
+  　　　　domainWhiteList: [ '*' ]
+  　　};
+    config.cors = {
+      origin: 'http://localhost:3000', //只允许这个域进行访问接口
+      credentials: true,   // 开启认证
+      allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS'
+      };
+  ```
+
+  
+
+- 配置id 传值方法，页面： `service/app/controller/default/home.js`
+
+  ```
+    //  通过id传值的方法
+    async getArticleById() {
+      // 先配置路由的动态传值，然后再接收值
+      let id = this.ctx.params.id;
+  
+      let sql = 'SELECT article.id as id,' +
+        'article.title as title,' +
+        'article.introduce as introduce,' +
+        'article.article_content as article_content,' +
+        "FROM_UNIXTIME(article.addTime,'%Y-%m-%d %H:%i:%s' ) as addTime," +
+        'article.view_count as view_count ,' +
+        'type.typeName as typeName ,' +
+        'type.id as typeId， ' +
+        'FROM article LEFT JOIN type ON article.type_id = type.Id ' +
+        'WHERE article.id=' + id;
+  
+  
+      const result = await this.app.mysql.query(sql);
+  
+  
+      this.ctx.body = { data: result };
+  
+    }
+  ```
+
+  
+
+- 配置传值id 对应的路由
+
+  ```
+  // 根据id 传值配置的路由
+    router.get('/default/getArticleById/:id', controller.default.home.getArticleById);
+  ```
+
+  
+
+- 前台部分配置  `blog/pages/detailed.js`
+
+  ```
+  	axios(`http://127.0.0.1:7001/default/getArticleById/${id}`)
+  ```
+
+  

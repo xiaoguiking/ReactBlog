@@ -43,6 +43,26 @@ module.exports = appInfo => {
     agent: false,
   };
 
+  /**
+   * @安全机制  跨域配置
+   */
+  config.security = {
+    scrf: {
+      enable: false,
+    },
+    domainWhiteList: [ '*' ],
+  };
+
+  config.cors = {
+    origin: '*',
+    // 允许访问的类型全部需要大写
+    allowMethods: 'GET, HEAD, PUT, POST, DELETE, PATCH, UPDATE',
+    // origin: 'http://localhost:3000', //  只允许这个域进行访问接口
+    // credentials: true, // 开启认证
+    // allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS',
+  };
+
+
   return {
     ...config,
     ...userConfig,

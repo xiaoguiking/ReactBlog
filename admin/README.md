@@ -1,7 +1,7 @@
 
 ## Available Scripts  admin（后台管理系统）
 
-In the project directory, you can run:
+
 
 ### `yarn start`
 
@@ -96,13 +96,16 @@ ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 
+
 ### 第26节：后台开发2-页面路由配置
 
 - 安装路由管理包 
-    
+  
     > yarn add react-router-dom
 - src 建立Pages文件夹 包含Login.js  Main.js
 - 在Main.js 建立路由并且抛出到 index.js
+
+
 
 ### 第27节：后台开发3-登录页面UI制作
 
@@ -113,6 +116,7 @@ src/static/css/Login.css
 isLoading主要用于控制Spin组件是否进入加载状态，进入加载状态可以有效防止重复提交
 
 
+
 ### 第28节：后台开发4-UI框架的Layout搭建
 
 > Layout 布局
@@ -121,6 +125,7 @@ API地址：https://ant.design/components/layout-cn/
 
 这步完成后，还需要在/src/static/css文件夹下建立一个AdminIndex.css文件，复制下面的代码
 本结主要是将class有状态组件变成hooks函数式组件的改写
+
 
 
 ### 第29节：后台开发5-添加文章页面制作1
@@ -252,6 +257,7 @@ import {Route} from 'react-dom-router';
 - 编写时间发布
 
 
+
 ### 第31节：后台开发7-Markdown转HTML （marked ， 语法解析写入	）
 
  > bug
@@ -298,4 +304,8 @@ const changContent = (e) => {
 			<div className="show-html" dangerouslySetInnerHTML={{__html:markdownContent}}></div>
 		</Col>
 ```
+
+
+
+### 第32节：后台开发8-中台登录接口编写
 

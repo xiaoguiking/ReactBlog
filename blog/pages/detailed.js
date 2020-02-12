@@ -3,7 +3,7 @@ import Head from 'next/head'
 import Header from '../components/Header';
 import '../public/style/pages/comm.css';
 import { Row, Col, Icon, Breadcrumb, Affix } from 'antd';
-import Link from 'next/link';
+
 import Author from '../components/Author';
 import Advert from '../components/Advert';
 import Footer from '../components/Footer';
@@ -98,14 +98,28 @@ const Detailed = () => {
   )
 }
 
+// //  获取id详情的方法
+// Detailed.getInitialProps = async (context) => {
+// 	console.log(context.query.id);
+	
+// 	let id = context.query.id;
+// 	const promise = new Promise((resolve) => {
+// 		axios('http://127.0.0.1:7001/default/getArticleById/'+id).then((res)=> {
+//       console.log(res.data,'res请求数据');
+// 			resolve(res.data.data[0]);
+// 		})
+// 	})
+// 	return await promise;
+// }
+
 //  获取id详情的方法
 Detailed.getInitialProps = async (context) => {
 	console.log(context.query.id);
 	
 	let id = context.query.id;
 	const promise = new Promise((resolve) => {
-		axios('http://127.0.0.1:7001/default/getArticleById').then((res)=> {
-			console.log(res,'res');
+		axios(`http://127.0.0.1:7001/default/getArticleById/${id}`).then((res)=> {
+      console.log(res.data,'res请求数据');
 			resolve(res.data.data[0]);
 		})
 	})
