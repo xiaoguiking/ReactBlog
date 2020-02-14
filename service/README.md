@@ -549,3 +549,93 @@ Detailed.getInitialProps = async (context) => {
   ```
 
   
+
+### 第20节：重构前台博客详细页面1-marked+highlight.js
+
+
+
+>  安装marked 和 highlight
+
+打开终端， cd blog 目录  下面的命令进行安装
+
+```
+yarn add marked
+yarn add highlight.js
+```
+
+
+
+> 重构 `blog/pages/detailed.js`
+
+目前重构主要是替换以前的Markdown 解决方案， 在代码页面部分引用刚才安装的 marke和highlight
+
+.js 模块
+
+引入模块（注意高亮需要一起引入css）
+
+```
+import marked from 'marked';
+import hljs from 'highlight.js';
+import 'highlight.js/styles/monokai-sublime.css';
+```
+
+引入设置·`marked.setOptions`,  详情介绍 属性
+
+```
+const renderer = new marked.Renderer();
+marked.setOptions({
+  renderer: renderer,
+  gfm: true,
+  pedantic: false,
+  sanitize: false,
+  tables: true,
+  breaks: false,
+  smartLists: true,
+  smartypans: false,
+  highlight: function(code){   // 直接设置高亮显示代码
+  	return hljs.highlightAuto(code).value;
+  }
+});
+let html = marked(props.article_count);
+
+
+```
+
+
+
+- renderer: 这个是必须填写的，你可以通过自定义的`Renderer`渲染出自定义的格式
+- gfm：启动类似Github样式的Markdown,填写true或者false
+- pedatic：只解析符合Markdown定义的，不修正Markdown的错误。填写true或者false
+- sanitize: 原始输出，忽略HTML标签，这个作为一个开发人员，一定要写flase
+- tables： 支持Github形式的表格，必须打开gfm选项
+- breaks: 支持Github换行符，必须打开gfm选项，填写true或者false
+- smartLists：优化列表输出，这个填写ture之后，你的样式会好看很多，所以建议设置成ture
+- highlight: 高亮显示规则 ，这里我们将使用highlight.js来完成
+
+
+
+>  修改了 detailed.css  样式
+
+
+
+> Bug   
+
+
+
+![image-20200214170912672](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20200214170912672.png)
+
+
+
+```
+分析点：
+  <div className="detailed-content"  dangerouslySetInnerHTML={{html}} >
+              {html}
+  </div>
+  加入dangerouslySetInnerHTML 报错
+  
+  
+  解决
+  <div dangerouslySetInnerHTML={{__html:html}}>
+  </div>
+```
+
