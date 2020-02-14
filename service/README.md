@@ -639,3 +639,150 @@ let html = marked(props.article_count);
   </div>
 ```
 
+
+
+
+
+### 第21节：重构前台博客详细页面2-文章导航
+
+
+
+重构后前台详细页的文章导航出现了错误提示，主要是选择markdown-navbar 模块的问题，直接启用新插件
+
+ 
+
+> tocify.tsx 文件简介
+
+`typeScript`语法编写jsx部分，使用的是`tsx`  的扩展名。
+
+使用此文件的两个必要条件
+
+	 1. 程序中使用Ant design UI 库，里面的导航部分，使用了antd的Anchor 组件
+  	 2. 安装lodash 模块（工具库）， 直接使用`yarn add lodash`安装
+
+页面： `/blog/components/tocify.tsx`
+
+```
+import React from 'react';
+import { Anchor } from 'antd';
+import { last } from 'lodash';
+
+const { Link } = Anchor;
+
+export interface TocItem {
+  anchor: string;
+  level: number;
+  text: string;
+  children?: TocItem[];
+}
+
+export type TocItems = TocItem[]; // TOC目录树结构
+
+export default class Tocify {
+  tocItems: TocItems = [];
+
+  index: number = 0;
+
+  constructor() {
+    this.tocItems = [];
+    this.index = 0;
+  }
+
+  add(text: string, level: number) {
+    const anchor = `toc${level}${++this.index}`;
+    const item = { anchor, level, text };
+    const items = this.tocItems;
+
+    if (items.length === 0) { // 第一个 item 直接 push
+      items.push(item);
+    } else {
+      let lastItem = last(items) as TocItem; // 最后一个 item
+
+      if (item.level > lastItem.level) { // item 是 lastItem 的 children
+        for (let i = lastItem.level + 1; i <= 2; i++) {
+          const { children } = lastItem;
+          if (!children) { // 如果 children 不存在
+            lastItem.children = [item];
+            break;
+          }
+
+          lastItem = last(children) as TocItem; // 重置 lastItem 为 children 的最后一个 item
+
+          if (item.level <= lastItem.level) { // item level 小于或等于 lastItem level 都视为与 children 同级
+            children.push(item);
+            break;
+          }
+        }
+      } else { // 置于最顶级
+        items.push(item);
+      }
+    }
+
+    return anchor;
+  }
+
+  reset = () => {
+    this.tocItems = [];
+    this.index = 0;
+  };
+
+  renderToc(items: TocItem[]) { // 递归 render
+    return items.map(item => (
+      <Link key={item.anchor} href={`#${item.anchor}`} title={item.text}>
+        {item.children && this.renderToc(item.children)}
+      </Link>
+    ));
+  }
+
+  render() {
+    return (
+      <Anchor affix showInkInFixed>
+         {this.renderToc(this.tocItems)}
+      </Anchor>
+    );
+  }
+}
+```
+
+
+
+> 使用tocify.tsx  生成文章目录
+
+页面:  `/blog/pages/detailed.js`
+
+```
+引入 指定模块
+import Tocify from '../compontents/tocify.tsx';
+
+引入后需要对marked 的渲染进行自定义 设置renderer.heading (写一个方法重新定义# 标签的解析)
+
+const tocify = new Tocify();
+renderer.heading = function(text, level, raw) {
+	const anchor = tocify.add(text, level);
+	return `<a id=${anchor} href="#${anchor}" class="anchor-fix"><h${level}>{$text}</h${level}></a>\n`;
+}
+
+最后在HTML 代码部分写出
+ <div className="toc-list">
+        {tocify && tocify.render()}
+  </div>
+```
+
+
+
+> Bug  导航过程写入没有效果？ 注意放置的位置 具体原因？？？？？？？？？？？？？？？？
+
+
+
+```
+  const renderer = new marked.Renderer();
+  
+  // 导航栏目方法写入 tocify 
+  const tocify = new Tocify();
+  renderer.heading = function (text, level, raw) {
+    const anchor = tocify.add(text, level);
+    return `<a id={$anchor} href="#${anchor}" class="anchor-fix"><h${level}>${text}</h${level}></a>\n`;
+  }
+
+```
+

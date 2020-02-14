@@ -10,16 +10,17 @@ import Footer from '../components/Footer';
 import '../public/style/pages/detailed.css';
 import axios from 'axios';
 
-import ReactMarkdown from 'react-markdown';  // 引入markdown 解析
-import MarkNav from 'markdown-navbar';  //  引入导航栏木插件
-import 'markdown-navbar/dist/navbar.css';  // 引入自带样式
+// import ReactMarkdown from 'react-markdown';  // 引入markdown 解析
+// import MarkNav from 'markdown-navbar';  //  引入导航目录插件  不再使用
+// import 'markdown-navbar/dist/navbar.css';  // 引入自带样式
 
 //  重构博客详情页 引入marked 和 highlight.js
 import marked from 'marked';  // markdown 解析软件
-import hljs, { highlight } from 'highlight.js'; // 代码高亮软件
-import  'highlight.js/styles/monokai-sublime.css'; // 代码高亮需要引入css 
+import hljs from 'highlight.js'; // 代码高亮软件
+import 'highlight.js/styles/monokai-sublime.css'; // 代码高亮需要引入css 
 
-
+//  文章目录导航  引入tocify.tsx
+import Tocify from '../components/tocify.tsx';
 
 
 
@@ -58,24 +59,36 @@ const Detailed = (props) => {
   // '>> bbbbbbbbb\n' +
   // '>>> cccccccccc\n\n'+
   // '``` var a=11; ```'
+
+
+  // 代码解析marked 语法解析设置
+  const renderer = new marked.Renderer();
   
-  
-// 代码解析marked 语法解析设置
-const renderer = new marked.Renderer();
-marked.setOptions({
-  renderer: renderer,
-  gfm: true,
-  pedantic: false,
-  sanitize: false,
-  tables: true,
-  breaks: false,
-  smartLists: true,
-  smartypans: false,
-  highlight: function(code) {
-    return hljs.highlightAuto(code).value;
+  // 导航栏目方法写入 tocify 
+  const tocify = new Tocify();
+  renderer.heading = function (text, level, raw) {
+    const anchor = tocify.add(text, level);
+    return `<a id={$anchor} href="#${anchor}" class="anchor-fix"><h${level}>${text}</h${level}></a>\n`;
   }
-}); 
-let html = marked(props.article_content) 
+
+  marked.setOptions({
+    renderer: renderer,
+    gfm: true,
+    pedantic: false,
+    sanitize: false,
+    tables: true,
+    breaks: false,
+    smartLists: true,
+    smartypans: false,
+    highlight: function (code) {
+      return hljs.highlightAuto(code).value;
+    }
+  });
+  let html = marked(props.article_content)
+
+
+
+
 
   return (
     <div>
@@ -99,8 +112,7 @@ let html = marked(props.article_content)
               <span><Icon type="folder" />视频教程</span>
               <span><Icon type="fire" />访问人数:121212</span>
             </div>
-            <div className="detailed-content"  dangerouslySetInnerHTML={{__html: html}} >
-            {html}
+            <div className="detailed-content" dangerouslySetInnerHTML={{ __html: html }} >
             </div>
           </div>
         </Col>
@@ -108,15 +120,12 @@ let html = marked(props.article_content)
           <Author />
           <Advert />
           <Affix offsetTop={5}>
-          <div className="detailed-nav comm-box">
-          <div className="nav-title">文章目录</div>
-          <MarkNav
-            className="article-menu"
-            // source={markdown}
-            source={html}
-            ordered={false}
-          />
-        </div>
+            <div className="detailed-nav comm-box">
+              <div className="nav-title">文章目录</div>
+              <div className="toc-list">
+                {tocify && tocify.render()}
+              </div>
+            </div>
           </Affix>
         </Col>
       </Row>
@@ -128,19 +137,28 @@ let html = marked(props.article_content)
 
 //  获取id详情的方法
 Detailed.getInitialProps = async (context) => {
-	console.log(context.query.id);
-	
-	let id = context.query.id;
-	const promise = new Promise((resolve) => {
-		axios(`http://127.0.0.1:7001/default/getArticleById/${id}`).then((res)=> {
-      console.log(res.data,'res请求数据');
-			resolve(res.data.data[0]);
-		})
-	})
-	return await promise;
+  console.log(context.query.id);
+
+  let id = context.query.id;
+  const promise = new Promise((resolve) => {
+    axios(`http://127.0.0.1:7001/default/getArticleById/${id}`).then((res) => {
+      console.log(res.data, 'res请求数据');
+      resolve(res.data.data[0]);
+    })
+  })
+  return await promise;
 }
 
 export default Detailed;
-// dangerouslySetInnerHTML={{__html}}
+// dangerouslySetInnerHTML={{__html:html}}
 // <ReactMarkdown source={markdown} escapeHtml={false} />
-  
+
+// 重构前文章目录
+        //   <div className="nav-title">文章目录</div>
+        //   <MarkNav
+        //     className="article-menu"
+        //     // source={markdown}
+        //     source={html}
+        //     ordered={false}
+        //   />
+        // </div>
