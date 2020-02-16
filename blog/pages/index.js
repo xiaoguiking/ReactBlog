@@ -10,6 +10,9 @@ import Author from '../components/Author';  //  头像组件
 import Advert from '../components/Advert';  // 广告组件
 import Footer from '../components/Footer';  // 底部组件
 
+// 引入 统一API配置管理
+import servicePath from '../config/apiUrl';
+
 
 // const renderItem = (item) => (
 //   <List.Item>
@@ -107,7 +110,7 @@ const Home = (list) => {
 
 Home.getInitialProps = async () => {
   const promise = new Promise((resolve) => {
-    axios('http://127.0.0.1:7001/default/getArticleList').then((res) => {
+    axios(servicePath.getArticleList).then((res) => {
       console.log(res.data, '请求得到res数据');
       resolve(res.data);
     })

@@ -44,14 +44,18 @@ class HomeController extends Controller {
       'FROM article LEFT JOIN type ON article.type_id = type.Id ' +
       'WHERE article.id=' + id;
 
-
     const result = await this.app.mysql.query(sql);
-
 
     this.ctx.body = { data: result };
 
   }
 
+
+  // 通过type类型 获取信息
+  async getTypeInfo() {
+    const result = await this.app.mysql.select('type');
+    this.ctx.body = { data: result };
+  }
 }
 
 module.exports = HomeController;

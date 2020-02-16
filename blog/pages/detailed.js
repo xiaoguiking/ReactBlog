@@ -22,6 +22,8 @@ import 'highlight.js/styles/monokai-sublime.css'; // 代码高亮需要引入css
 //  文章目录导航  引入tocify.tsx
 import Tocify from '../components/tocify.tsx';
 
+//  引入统一中台API配置管理 
+import servicePath from '../config/apiUrl';
 
 
 const Detailed = (props) => {
@@ -68,7 +70,7 @@ const Detailed = (props) => {
   const tocify = new Tocify();
   renderer.heading = function (text, level, raw) {
     const anchor = tocify.add(text, level);
-    return `<a id={$anchor} href="#${anchor}" class="anchor-fix"><h${level}>${text}</h${level}></a>\n`;
+    return `<a id=${anchor} href="#${anchor}" class="anchor-fix"><h${level}>${text}</h${level}></a>\n`;
   }
 
   marked.setOptions({
@@ -140,8 +142,9 @@ Detailed.getInitialProps = async (context) => {
   console.log(context.query.id);
 
   let id = context.query.id;
+  // 使用统一配置API改写
   const promise = new Promise((resolve) => {
-    axios(`http://127.0.0.1:7001/default/getArticleById/${id}`).then((res) => {
+    axios(servicePath.getArticleById + id).then((res) => {
       console.log(res.data, 'res请求数据');
       resolve(res.data.data[0]);
     })
@@ -150,6 +153,7 @@ Detailed.getInitialProps = async (context) => {
 }
 
 export default Detailed;
+
 // dangerouslySetInnerHTML={{__html:html}}
 // <ReactMarkdown source={markdown} escapeHtml={false} />
 

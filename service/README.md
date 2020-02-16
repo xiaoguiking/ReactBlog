@@ -786,3 +786,145 @@ renderer.heading = function(text, level, raw) {
 
 ```
 
+
+
+### 第22节：前台文章列表也的制作-接口制作 （编写统一中台API配置文件）
+
+
+
+>  编写统一中台API 配置文件
+
+新建页面  `/blog/config/apiUrl.js`
+
+```
+const ipUrl = 'http://127.0.0.1:7001/default/';
+const servicePath = {
+	getArticleList: ipUrl + 'getArticleList',  // 首页文章列表接口   list
+	getArticleById: ipUrl + 'getArticleById/',   //  详细文章接口页 需要接受参数   detailed 
+	getTypeInfo: ipUrl + 'getTypeInfo',
+}
+
+export default servicePath;
+```
+
+
+
+> 更换详情页案例实例
+
+页面： `blog/pages/detailed.js`
+
+```
+// 先进行引入
+import servicePath from '../config/apiUrl';
+
+// 引入后进行修改 （注意id参数）
+Detailed.getInitialProps = async(context) => {
+	console.log(context.query.id);
+	let id = context.query.id;
+	const promise = new Promise((resolve) => {
+		axios(servicePath.getArticleById + id).then((res)=> {
+			// console.log(title);
+			resolve(res.data.data[0]);
+		})
+	})
+	return await promise;
+
+}
+
+```
+
+
+
+> 修改首页接口 读取文章类别信息
+
+希望每个页面只读取一次接口，然后服务端渲染好展示给我们，这时候就需要在首页的`getArticleList` 接口修改
+
+文件位置 `/service/app/default/home.js`
+
+```
+修改代码如下：
+
+// 得到类别名称和编号
+async getTypeInfo(){
+	const result = await this.app.mysql.select('type');
+	this.ctx.body = {data: result};
+}
+```
+
+接口编写变成，就可以在`<Header/>` 中使用
+
+
+
+> 修改数据库
+
+图标存入数据库
+
+打开mysql管理， 加入icon字段（varChar）
+
+- 视频教程 youtube
+
+- 信息前沿 message
+
+- 生活快乐 smile
+
+  
+
+有了图标字段并且有值之后再次修改 `<Header>` 组件， 加入图标的部分，加入博客首页上去
+
+
+
+>  **修改Header组件**
+
+以前 `Header` 组件是写死的，（静态），利用useEffect（）方法 从接口 动态获取数据
+
+```
+import React,{useState, useEffect} from 'react';
+import Router from 'next/router';
+import axios from 'axios';
+import servicePath from '../config/apiUrl';
+```
+
+```
+引入后用useState 声明navArray  使用useEffect 获取 远程数据
+const [navArray, setNavArray] = useState([]);
+useEffect(() => {
+	const fetchData = async () => {
+		const result = await axios(servicePath.getTypeInfo).then((res) => {
+			return res.data.data;
+		})
+		setNavArray(result);
+	}
+	fetchData();
+}, [])
+```
+
+useEffect()  写完后，可以获得博客的分类信息， 实现分类信息跳转的方法 handleClick
+
+```
+// 跳转到列表页
+const handleClick = （e）=> {
+	if(e.key === 0) {
+		Router.push('/index')
+	}else {
+		Router.push('/list?id='+ e.key);
+	}
+}
+```
+
+
+
+> **Menu 组件部分**
+
+```
+               <Menu mode="horizontal" onClick={handleClick}>
+               <Menu.Item key="home"><Icon type="home" />首页</Menu.Item>
+               {
+                navArray.map((item) => {
+                    return (
+                        <Menu.Item key={item.id}><Icon type={item.icon} />{item.typeName}</Menu.Item>
+                    )
+                })
+               }
+               </Menu>
+```
+
