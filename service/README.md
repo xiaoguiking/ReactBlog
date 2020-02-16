@@ -788,7 +788,7 @@ renderer.heading = function(text, level, raw) {
 
 
 
-### 第22节：前台文章列表也的制作-接口制作 （编写统一中台API配置文件）
+### 第22节：前台文章列表也的制作-接口制作 （编写统一中台API配置文件 Header 组件）
 
 
 
@@ -850,6 +850,16 @@ async getTypeInfo(){
 	this.ctx.body = {data: result};
 }
 ```
+
+配置 文章列表信息路由
+
+页面： `service/router/default.js`
+
+```
+router.get('default/getTypeInfo', controller.default.home.getTypeInfo);
+```
+
+
 
 接口编写变成，就可以在`<Header/>` 中使用
 
@@ -916,15 +926,15 @@ const handleClick = （e）=> {
 > **Menu 组件部分**
 
 ```
-               <Menu mode="horizontal" onClick={handleClick}>
-               <Menu.Item key="home"><Icon type="home" />首页</Menu.Item>
-               {
-                navArray.map((item) => {
-                    return (
-                        <Menu.Item key={item.id}><Icon type={item.icon} />{item.typeName}</Menu.Item>
-                    )
-                })
-               }
-               </Menu>
+       <Menu mode="horizontal" onClick={handleClick}>
+       <Menu.Item key="home"><Icon type="home" />首页</Menu.Item>
+       {
+        navArray.map((item) => {
+            return (
+                <Menu.Item key={item.id}><Icon type={item.icon} />{item.typeName}</Menu.Item>
+            )
+        })
+       }
+       </Menu>
 ```
 

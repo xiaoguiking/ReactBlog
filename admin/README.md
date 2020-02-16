@@ -8,8 +8,7 @@
 Runs the app in the development mode.<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+
 
 ### `yarn test`
 
@@ -307,5 +306,80 @@ const changContent = (e) => {
 
 
 
-### 第32节：后台开发8-中台登录接口编写
+### 第32节：后台开发8-中台service登录接口编写 （中台连接后台）
+
+
+
+>  新建 main.js  文件
+
+页面: `/service/controller/admin/ main.js`  后台使用的接口
+
+建立好文件后，编写代码：
+
+```
+'use strict',
+const Controller = require('egg').Controller;
+
+class MainController extends Controller {
+	async index(){
+		// 首页的文章列表数据
+		this.ctx.body = 'Hi api';
+	}
+}
+
+modult.exports  = MainController;
+```
+
+
+
+> 中台路由文件制作
+
+页面： `service/router/admin.js`   配置后台接口文件路由
+
+```
+module.exports = app => {
+	const {router, controller} = app;
+	router.get('/admin/index', controller.admin.main.index)
+}
+```
+
+路由配置以后在总的路由文件`router.js`进行配置， 
+
+```
+'use strict';
+modult.exports = app => {
+	require(./router/default)(app);
+	require('./router/admin')(app);
+}
+```
+
+测试浏览效果 `http://localhost:7001/admin/index/`
+
+
+
+> 登录方法的编写
+
+页面： `service/controller/admin/main.js`
+
+```
+
+ //判断用户名密码是否正确
+  async checkLogin(){
+      let userName = this.ctx.request.body.userName
+      let password = this.ctx.request.body.password
+      const sql = " SELECT userName FROM admin_user WHERE userName = '"+userName +
+                  "' AND password = '"+password+"'"
+
+      const res = await this.app.mysql.query(sql)
+      if(res.length>0){
+          //登录成功,进行session缓存
+          let openId=new Date().getTime()
+          this.ctx.session.openId={ 'openId':openId }
+          this.ctx.body={'data':'登录成功','openId':openId}
+
+      }else{
+          this.ctx.body={data:'登录失败'}
+      } 
+  }
+```
 
