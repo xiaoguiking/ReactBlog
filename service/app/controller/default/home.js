@@ -31,7 +31,7 @@ class HomeController extends Controller {
   }
   //  通过id传值的方法
   async getArticleById() {
-    // 先配置路由的动态传值，然后再接收值
+  // 先配置路由的动态传值，然后再接收值
     const id = this.ctx.params.id;
 
     const sql = 'SELECT article.id as id,' +
@@ -46,7 +46,6 @@ class HomeController extends Controller {
       'WHERE article.id=' + id;
 
     const result = await this.app.mysql.query(sql);
-
     this.ctx.body = { data: result };
 
   }
@@ -56,6 +55,22 @@ class HomeController extends Controller {
   async getTypeInfo() {
     const result = await this.app.mysql.select('type');
     this.ctx.body = { data: result };
+  }
+
+  // 根据列类别ID获取 文章列表
+  async getListById() {
+    const id = this.ctx.params.id;
+    const sql = 'SELECT article.id as id,' +
+    'article.title as title,' +
+    'article.introduce as introduce,' +
+    "FROM_UNIXTIME(article.addTime,'%Y-%m-%d %H:%i:%s' ) as addTime," +
+    'article.view_count as view_count ,' +
+    'type.typeName as typeName ' +
+    'FROM article LEFT JOIN type ON article.type_id = type.Id ' +
+    'WHERE type_id=' + id;
+    const result = await this.app.mysql.query(sql);
+    this.ctx.body = { data: result };
+
   }
 }
 

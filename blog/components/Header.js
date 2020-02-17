@@ -29,7 +29,7 @@ const Header = () => {
     // 跳转路由方法
 
     const handleClick = (e) => {
-        if(e.key === 0){
+        if(e.key == 0){
             Router.push('/index');
         }else{
             Router.push('/list?id='+ e.key);
@@ -48,11 +48,14 @@ const Header = () => {
             </Col>
             <Col  xs={0} sm={0} md={14} lg={8} xl={6}>
                <Menu mode="horizontal" onClick={handleClick}>
-               <Menu.Item key="home"><Icon type="home" />首页</Menu.Item>
+               <Menu.Item key="0">
+               <Icon type="home" />
+               博客首页
+               </Menu.Item>
                {
                 navArray.map((item) => {
                     return (
-                        <Menu.Item key={item.id}><Icon type={item.icon} />{item.typeName}</Menu.Item>
+                        <Menu.Item key={item.Id}><Icon type={item.icon} />{item.typeName}</Menu.Item>
                     )
                 })
                }

@@ -913,7 +913,7 @@ useEffect()  写完后，可以获得博客的分类信息， 实现分类信息
 ```
 // 跳转到列表页
 const handleClick = （e）=> {
-	if(e.key === 0) {
+	if(e.key == 0) {
 		Router.push('/index')
 	}else {
 		Router.push('/list?id='+ e.key);
@@ -927,14 +927,112 @@ const handleClick = （e）=> {
 
 ```
        <Menu mode="horizontal" onClick={handleClick}>
-       <Menu.Item key="home"><Icon type="home" />首页</Menu.Item>
+       <Menu.Item key="0"><Icon type="home" />首页</Menu.Item>
        {
         navArray.map((item) => {
             return (
-                <Menu.Item key={item.id}><Icon type={item.icon} />{item.typeName}</Menu.Item>
+                <Menu.Item key={item.Id}><Icon type={item.icon} />{item.typeName}</Menu.Item>
             )
         })
        }
        </Menu>
+```
+
+
+
+###  第23节：前台文章列表页的制作2-界面制作
+
+
+
+> 编写根据类别ID 获取文章列表 接口
+
+页面位置：`service/app/default/home.js`
+
+```
+根据列类别ID获取 文章列表
+  async getListById() {
+    const id = this.ctx.params.id;
+    const sql = 'SELECT article.id as id,' +
+    'article.title as title,' +
+    'article.introduce as introduce,' +
+    "FROM_UNIXTIME(article.addTime,'%Y-%m-%d %H:%i:%s' ) as addTime," +
+    'article.view_count as view_count ,' +
+    'type.typeName as typeName ' +
+    'FROM article LEFT JOIN type ON article.type_id = type.Id ' +
+    'WHERE type_id=' + id;
+    const result = await this.app.mysql.query(sql);
+    this.ctx.body = { data: result };
+
+  }
+```
+
+> 中台为其配置路由
+
+页面: `service/router/default.js`
+
+```
+router.get('/default/getListById/:id', controller.default.home.getListById);
+```
+
+> 前台 API 统一管理文件
+
+页面： `blog/config/apiUrl.js`
+
+```
+let servicePath = {
+	getListById: ipUrl + 'getListById',  根据类别Id获得文章列表
+}
+```
+
+> 编写前台UI 界面  (请求数据)
+
+页面： `blog/pages/list.js`
+
+```
+import servicePath from '../config/apiUrl.js';
+import axios from 'axios';
+import Link from 'next/link';
+
+// 直接使用 getInitialProps 在接口中获取数据
+
+ArticleList.getInitialProps = async (context) =>{
+	let id = context.query.id;
+	const promise = new Promise((resolve) => {
+	 axios(servicePath.getListById + id).then(
+	 (res) => resolve(res.data))
+	})
+	return await promise;
+}
+
+const MyList  = list =>  {
+  const [myList, setMylist] = useState(list.data);
+  useEffect(() => {
+  	setMylist(list.data);
+  })
+  
+  
+  <List
+    itemLayout="vertical"
+    dataSource={mylist}
+    renderItem={item => (
+      <List.Item>
+        <div className="list-title">
+            <Link href={{pathname:'/detailed',query:{id:item.id}}}>
+            <a>{item.title}</a>
+          </Link>
+        </div>
+        <div className="list-icon">
+          <span><Icon type="calendar" />{item.addTime}</span>
+          <span><Icon type="folder" /> {item.typeName}</span>
+          <span><Icon type="fire" />  {item.view_count}人</span>
+        </div>
+        <div className="list-context">{item.introduce}</div>  
+      </List.Item>
+    )}
+  />  
+  
+}
+
+
 ```
 
