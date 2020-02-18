@@ -7,20 +7,23 @@ class MainController extends Controller {
   async index() {
     this.ctx.body = 'Hi 测试成功';
   }
+
+
   // 登录
   async checkLogin() {
     const userName = this.ctx.request.body.userName;
     const passWord = this.ctx.request.body.passWord;
-    const sql = "SELECT userName FROM admin_user WHERE userName = '"+userName+"'AND passWord='"+passWord+"'"
+    const sql = "SELECT userName FROM admin_user WHERE userName = '" + userName + "'AND passWord='" + passWord + "'";
     const res = await this.app.mysql.query(sql);
     if (res.length > 0) {
-    //  登录成功进行session缓存
-      const openId = new Date().getTime();
-      this.ctx.session.openId = { openId: 'openId' };
-      this.ctx.body = { data: '登录成功', openId: 'openId'}
+      // 登录成功,进行session缓存
+      const openId = new Date().getTime()
+      this.ctx.session.openId={ 'openId':openId }
+      this.ctx.body={ 'data': '登录成功','openId':openId }
+
     } else {
       this.ctx.body = { data: '登录失败' };
-    }
+    }  
   }
 
 }

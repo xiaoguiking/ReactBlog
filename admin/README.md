@@ -383,3 +383,116 @@ modult.exports = app => {
   }
 ```
 
+> 创建数据表   react-blog 数据库下创建 数据表 admin-user
+
+
+
+```
+userName:  admin
+password: 123
+```
+
+
+
+
+
+
+
+###  第33节：后台开发9-后台登录功能的实现
+
+> 设置中台路由
+
+页面: `service/app/router/admin.js`
+
+```
+router.post('/admin/checkOpenId', controller.admin.main.checkLogin);
+```
+
+>  后台设置 统一管理API     安装 axios  yarn  add axios
+
+页面: `/admin/config/apiUrl.js`
+
+```
+const ipUrl = 'http://127.0.0.1:7001/admin/';
+const servicePath = {
+	checkLogin: ipUrl + 'checkLogin', // 检查用户名密码时候正确
+}
+```
+
+
+
+> 后台登录方法编写checkLogin
+
+点击登录按钮后，就要去后台请求接口，验证输入的用户名和密码是否正确，如果正确跳到博客管理页面，如果不正确在登录页面进行提示。
+
+页面 `admin/src/Pages/Login.js`
+
+```
+const checkLogin = () => {
+	setIsLoading(true);
+	if(!userName){
+		message.error('用户名不能为空');
+		return false;
+	}else if {
+	setTimeout(() => {
+	 setIsLoading(false);
+	}, 1000)
+			message.error('密码不能为空');
+		    return false;
+	}
+	let dataProps = {
+	'userName': userName,
+	'passWord':  passWord,
+	}
+	axios({
+	 method:'post',
+	 url: servicePath.checkLogin,
+	 data: dataProps,
+	 withCredentials: true
+	}).then(
+	res => {
+	setIsLoading(false);
+	if(res.data.data == '登录成功'){
+		locatlStorage。setItem('openId', res.data.openId)
+		props.history.push('/index');
+	}else {
+		message.error('用户名密码错误');
+	}
+	})
+}
+```
+
+![image-20200218193238318](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20200218193238318.png)
+
+> 解决跨域
+
+页面： `service/config/config.default.js`
+
+```
+ config.security = {
+　　　　csrf: {enable: false},
+　　　　domainWhiteList: [ '*' ]
+　　};
+  config.cors = {
+    origin: 'http://localhost:3000',
+    credentials: true,  //允许Cook可以跨域
+    allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS'
+    };
+```
+
+
+
+> 修改后台管理 登录 路由
+
+页面`admin/src/Pages/Main.js`
+
+```
+<Router>
+            <Route path='/' exact component={Login}  />
+            <Route path='/index/' exact component={AdminIndex}  />
+        </Router>
+```
+
+
+
+> # Egg post 失败 { message: 'invalid csrf token' } 解决方案
