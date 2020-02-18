@@ -13,6 +13,11 @@ import Footer from '../components/Footer';  // 底部组件
 // 引入 统一API配置管理
 import servicePath from '../config/apiUrl';
 
+//  重构博客首页 引入marked 和 highlight.js
+import marked from 'marked';  // markdown 解析软件
+import hljs from 'highlight.js'; // 代码高亮软件
+import 'highlight.js/styles/monokai-sublime.css'; // 代码高亮需要引入css 
+
 
 // const renderItem = (item) => (
 //   <List.Item>
@@ -65,6 +70,23 @@ const Home = (list) => {
   console.log(list.data, '132222222222222')
   //---------主要代码-------------end
 
+ // 代码解析marked 语法解析设置
+ const renderer = new marked.Renderer();
+ marked.setOptions({
+  renderer: renderer,
+  gfm: true,
+  pedantic: false,
+  sanitize: false,
+  tables: true,
+  breaks: false,
+  smartLists: true,
+  smartypans: false,
+  highlight: function (code) {
+    return hljs.highlightAuto(code).value;
+  }  
+ });
+//  let html = marked(list.item.introduce);
+
   return (
     <>
       <Head>
@@ -90,7 +112,7 @@ const Home = (list) => {
                     <span><Icon type="folder" /> {item.typeName}</span>
                     <span><Icon type="fire" /> {item.view_count}人</span>
                   </div>
-                  <div className="list-context">{item.introduce}</div>
+                  <div className="list-context" dangerouslySetInnerHTML={{__html: marked(item.introduce)}}></div>
                 </List.Item>
               )}
             />
