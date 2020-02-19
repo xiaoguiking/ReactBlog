@@ -57,7 +57,7 @@ module.exports = appInfo => {
     // origin: '*',
     // 允许访问的类型全部需要大写
     allowMethods: 'GET, HEAD, PUT, POST, DELETE, PATCH, UPDATE',
-    origin: 'http://localhost:3000', //  只允许这个域进行访问接口
+    origin: 'http://localhost:3000', //  只允许这个域进行访问接口  解决后台管理跨域问题
     credentials: true, // 开启认证允许cookie可以跨域
     // allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS',
   };

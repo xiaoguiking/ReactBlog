@@ -398,7 +398,7 @@ password: 123
 
 
 
-###  第33节：后台开发9-后台登录功能的实现
+###  第33节：后台开发9-后台登录功能的实现 （bug）
 
 > 设置中台路由
 
@@ -496,3 +496,61 @@ const checkLogin = () => {
 
 
 > # Egg post 失败 { message: 'invalid csrf token' } 解决方案
+
+
+
+
+
+###   第34节：后台开发10-中台路由守卫制作  （中台使用中间件	）
+
+
+
+登录后生成session，通过后台是不是存在对应session，作为一个中台的路由守卫，如果没有登录，是不允许后台访问对应的后台接口，也就没办法实现对应操作，实现了接口的安全。
+
+> **编写守卫方法**
+
+守卫方法通过`egg.js`中间件实现`middleware`， 
+
+页面建立 `service/app/middleware/adminauth.js`
+
+```
+module.exports = options => {
+	return async function adminauth(ctx, next) {
+		console.log(ctx.session.openId);
+		if(ctx.session.openId){
+			await next();
+		}else {
+			ctx.body = {data: '没有登录'};
+		}
+	}
+}
+```
+
+路由守卫是一个异步的方法，如果验证session成功，就用用awat next() 向下执行，（走正确的流程执行下去），如果验证失败，就直接返回 ‘没有登录’
+
+
+
+> **前后台分离共享session 的方法?**
+
+页面： 中台实现 `service/config/config.default.js` 加入**credentials： true**
+
+```
+config.cors = {
+	origin: 'http://localhost:3000',
+	credentials: true, //  允许Cookie 跨域（session）
+}
+```
+
+
+
+> ***使用中间件实现路由守卫*** （路由配置）
+
+页面 `service/app/router/admin.js`
+
+```
+const {router, controller} = app;
+var adminauth = app.middleware.adminauth();
+router.get('/admin/index',adminauth, controller.amdin.main.index );
+
+```
+
