@@ -554,3 +554,104 @@ router.get('/admin/index',adminauth, controller.amdin.main.index );
 
 ```
 
+
+
+###  第35节：后台开发11-读取文章分类信息  ( bug 路由守卫问题没有解决)
+
+从中台写入一个读取文章类别的接口，然后从接口汇总获得数据，展现在添加文章页面
+
+> **编写文章类别接口**
+
+页面： `service/app/controller/admin/main.js`
+
+```
+// 后台文章信息
+async getTypeInfo(){
+	const resType = this.app.mysql.select('type');
+	this.ctx.body = {data: resType};
+}
+```
+
+> **编写中台路由**
+
+页面 `service/app/router/admin/admin.js`
+
+```
+modules.exports = app => {
+	const {router, controller} = app;
+	var adminauth = app.middleware.adminauth();
+	router.get('admin/index', controller.admin.main.index);
+	router.get('admin/getTypeInfo', adminauth, controller.admin.main.getTypeInfo);
+}
+```
+
+> **后台admin apiUrl.js 设置**
+
+```
+const service = {
+	getTypeInfo: ipUrl + 'getTypeInfo', // 获取文章类别
+}
+```
+
+
+
+> **在添加文章页面 显示出类别**
+
+页面： `	admin/src/Pages/AddArticle.js`
+
+```
+import {Row, Col, Input, Select, Button, DatePicker, message} from 'antd';
+import axios from 'axios';
+import servicePath from '../config/apiUrl';
+
+const [typeInfo, setTypeInfo] = useState([]);  // 文章类别信息
+
+```
+
+引入编写的`getTypeInfo `方法
+
+```
+
+
+ //从中台得到文章类别信息
+  const getTypeInfo =()=>{
+
+        axios({
+            method:'get',
+            url:servicePath.getTypeInfo,
+            header:{ 'Access-Control-Allow-Origin':'*' },
+            withCredentials: true
+        }).then(
+           res=>{
+               if(res.data.data=="没有登录"){
+                 localStorage.removeItem('openId')
+                 props.history.push('/')  
+               }else{
+                setTypeInfo(res.data.data)
+               }
+
+            }
+        )
+  }js
+```
+
+useEffect  进行使用
+
+````
+useEffect(() => {
+	getTypeInfo();
+},[])
+````
+
+样式代码部分
+
+<Select	defaultValue={selectedType} size="large" onChange={selectTypeHandler}>
+    {
+    typeInfo.map((item,index) => {
+    	return <Option key={inex} value={item.Id}>{item.typeName}</Option>
+    })
+    }
+</select>
+
+
+
