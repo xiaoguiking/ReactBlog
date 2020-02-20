@@ -31,6 +31,20 @@ class MainController extends Controller {
     const resType = await this.app.mysql.select('type');
     this.ctx.body = { data: resType };
   }
+  
+  // 添加文章
+  async addArticle () {
+	  const tmpArticle = this.ctx.request.body;
+	  // 将tmpArticle插入article表中
+	  const result = this.app.mysql.insert('article', tmpArticle);
+	  const insertId = result.insertId;
+	  const insertSuccess = result.affectedRows === 1;
+	  
+	  this.ctx.body = {
+		  isSuccess: insertSuccess,
+		  insertId: insertId
+	  }
+  }
 }
 
 module.exports = MainController;

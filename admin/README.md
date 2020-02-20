@@ -751,3 +751,77 @@ const saveArticle = () => {
 </Col>
 ```
 
+
+
+###  第37节：后台开发13-添加文章内容(中)
+
+完善中台service 和后台admin 的saveArticle 方法
+
+>  **编写中台addArticle 方法**
+
+页面： `service/app/controller/admin/main.js`  编写 addArticle 方法
+
+```
+// 添加文章
+async addArticle() {
+ const temArticle = this.ctx.request.body;
+ const result = await this.app.mysql.insert('article, tmpArticle');
+ const insertSuccess = result.affectedRows === 1;
+ const insertId = result.insertId;
+ this.ctx.body = {
+  isSuccess: insertSuccess,
+  insertId: insertId
+ }
+}
+```
+
+> **编写对用的路由**
+
+页面： `service/app/router/admin.js`
+
+```
+router.post('admin/addArticle', adminauth, controller.admin,main.addArticle);
+```
+
+>  admin后台统一管理api ， apiUrl.js
+
+```
+let servicePath = {
+	addArticle: ipUrl +'addArticle', // 添加文章
+}
+```
+
+
+
+>  **编写saveArticle方法**
+
+```
+const saveArticle = () => {
+ const dataProps = {}; // 传递到接口的参数  dataProps.参数 对应数据库中的名字
+ dataProps.type_id = selectedType
+ dataProps.title = articleTitle
+ dataProps.article_content = articleContent
+ dataProps.introduce = introducemd
+ let dateText = showDate.replace('-','/');  // 把字符串变成时间戳
+ dataProps.addTime = (new Date(dataText).getTime())/1000
+ 
+ if(articleId === 0)
+ console.log('articleId=:'+articleId);
+ dataProp.view_count = Math.ceil(Math.random()*100+1000);
+ axios({
+  method: 'post',
+  url: service.addArticle,
+  data: dataProps,
+  withCredentials: true
+ }).then((res) => {
+ 	setArticleId(res.data.insertId);
+ 	if(res.data.isSuccess) {
+ 	message.success('文章保存成功');
+ 	}else {
+ 	message.error('文章保存失败');
+ 	}
+ })
+}
+
+```
+

@@ -19,7 +19,7 @@ const AddArticle = (props) => {
 	const [introducemd, setIntroducemd] = useState()            //简介的markdown内容  文章简介
 	const [introducehtml, setIntroducehtml] = useState('等待编辑') //简介的html内容
 	const [showDate, setShowDate] = useState()   //发布日期
-	const [updateDate, setUpdateDate] = useState() //修改日志的日期
+	// const [updateDate, setUpdateDate] = useState() //修改日志的日期
 	const [typeInfo, setTypeInfo] = useState([]) // 文章类别信息
 	const [selectedType, setSelectType] = useState('选择类别') //选择的文章类别
 
@@ -92,7 +92,39 @@ const AddArticle = (props) => {
 			message.error('发布时期不能为空');
 			return false;
 		}
-		message.success('检验通过');
+		// message.success('检验通过');
+		// 传递到接口的参数
+		const dataProps = {}; 
+		// 文章类别
+		dataProps.type_id = selectedType; 
+		// 文章标题
+		dataProps.title = articleTitle;
+		// 文章内容
+		dataProps.article_count = articleContent;
+		// 文章简介
+		dataProps.introduce = introducemd;
+		// 把发布日期字符串变成时间戳
+		const dateText= showDate.replace('-','/')
+		dataProps.addTime = (new Date(dateText).getTime())/1000;
+		
+		if(articleId === 0){
+			console.log('artilceId=:', articleId);
+			dataProps.view_count = Math.ceil(Math.random()*100/1000);
+			axios({
+				method: 'post',
+				url: servicePath.addArticle,
+				withCredentials: true,
+				data: dataProps,
+			}).then(
+			res => {
+				setArticleId(res.data.insertId);
+				if(res.data.isSuccess){
+					message.success('文章保存成功');
+				}else {
+					message.error('文章保存失败');
+				}
+			})
+		}
 	}
 	return (
 		<div>
