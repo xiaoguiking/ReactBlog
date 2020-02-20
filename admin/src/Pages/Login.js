@@ -10,7 +10,7 @@ import servicePath from '../config/apiUrl';
 
 const Login = (props) => {
     const [userName, setUserName] = useState('');
-    const [passWord, setPassWord] = useState('');
+    const [password, setPassWord] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
     const onChangeName = (e) => {
@@ -31,7 +31,7 @@ const Login = (props) => {
             }, 1000)
             message.error('用户名不能为空');
             return false;
-        } else if (!passWord) {
+        } else if (!password) {
             setTimeout(() => {
                 setIsLoading(false);
             }, 1000)
@@ -40,7 +40,7 @@ const Login = (props) => {
         };
         let dataProps = {
             'userName': userName,
-            'passWord': passWord
+            'password': password
         }
         axios({
             method: 'post',

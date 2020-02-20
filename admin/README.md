@@ -648,10 +648,14 @@ useEffect(() => {
 <Select	defaultValue={selectedType} size="large" onChange={selectTypeHandler}>
     {
     typeInfo.map((item,index) => {
-    	return <Option key={inex} value={item.Id}>{item.typeName}</Option>
+    	return <Option key={index} value={item.Id}>{item.typeName}</Option>
     })
     }
 </select>
 
+> bug 路由守卫问题没有解决 (解决)
 
+```
+清空浏览器 缓存
+```
 

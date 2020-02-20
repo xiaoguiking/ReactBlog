@@ -6,7 +6,7 @@ module.exports = options => {
     if (ctx.session.openId) {
       await next();
     } else {
-      ctx.body = { data: '没有登录用户' };
+      ctx.body = { data: '没有登录' };
     };
   };
 };
