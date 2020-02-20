@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../static/css/AddArticle.css';
 import marked from 'marked';
-import { Row, Col, Input, Select, Button, DatePicker } from 'antd';
+import { Row, Col, Input, Select, Button, DatePicker, message } from 'antd';
 
 import servicePath from '../config/apiUrl';
 import axios from 'axios';
@@ -9,16 +9,14 @@ import axios from 'axios';
 const { TextArea } = Input;
 const { Option } = Select;
 
-
-
 const AddArticle = (props) => {
 
 	//  添加文章页面的整体 业务逻辑
 	const [articleId, setArticleId] = useState(0)  // 文章的ID，如果是0说明是新增加，如果不是0，说明是修改
 	const [articleTitle, setArticleTitle] = useState('')   //文章标题
-	const [articleContent, setArticleContent] = useState('')  //markdown的编辑内容
+	const [articleContent, setArticleContent] = useState('')  //markdown的编辑内容  文章内容
 	const [markdownContent, setMarkdownContent] = useState('预览内容') //html内容
-	const [introducemd, setIntroducemd] = useState()            //简介的markdown内容
+	const [introducemd, setIntroducemd] = useState()            //简介的markdown内容  文章简介
 	const [introducehtml, setIntroducehtml] = useState('等待编辑') //简介的html内容
 	const [showDate, setShowDate] = useState()   //发布日期
 	const [updateDate, setUpdateDate] = useState() //修改日志的日期
@@ -38,7 +36,6 @@ const AddArticle = (props) => {
 	});
 
 	// 编写实时预览方法 文章内容
-
 	const changeContent = (e) => {
 		setArticleContent(e.target.value);
 		let html = marked(e.target.value);
@@ -46,7 +43,6 @@ const AddArticle = (props) => {
 	}
 
 	// 文章简介
-
 	const changeIntroduce = (e) => {
 		setIntroducemd(e.target.value);
 		let html = marked(e.target.value);
@@ -56,6 +52,7 @@ const AddArticle = (props) => {
 	useEffect(() => {
 		getTypeInfo();
 	}, [])
+
 	// 获取文章类别 axios
 	const getTypeInfo = () => {
 		axios({
@@ -74,17 +71,45 @@ const AddArticle = (props) => {
 		})
 	}
 
+	// 选择文章类别
+	const selectTypeHandler = (value) => {
+		setSelectType(value);
+	}
+
+	// 编写文章保存方法
+
+	const saveArticle = () => {
+		if (!articleTitle) {
+			message.error('文章标题不能为空');
+			return false;
+		} else if (!articleContent) {
+			message.error('文章内容不能为空');
+			return false;
+		} else if (!introducemd) {
+			message.error('文章简介不能为空');
+			return false;
+		} else if (!showDate) {
+			message.error('发布时期不能为空');
+			return false;
+		}
+		message.success('检验通过');
+	}
 	return (
 		<div>
 			<Row gutter={5}>
 				<Col span={18}>
 					<Row gutter={10}>
 						<Col span={20}>
-							<Input placeholder="博客标题" size="large" />
+							<Input
+								placeholder="博客标题"
+								value={articleTitle}
+								size="large"
+								onChange={(e) => setArticleTitle(e.target.value)}
+							/>
 						</Col>
 						<Col span={4}>
 							&nbsp;
-                        <Select defaultValue={selectedType} size="large">
+                        <Select defaultValue={selectedType} size="large" onChange={selectTypeHandler}>
 								{
 									typeInfo.map((item, index) => {
 										return (<Option key={index} value={item.Id}>{item.typeName}</Option>)
@@ -107,7 +132,7 @@ const AddArticle = (props) => {
 					<Row>
 						<Col span={24}>
 							<Button size="large">暂存文章</Button>&nbsp;
-						<Button size="large" type="primary	">发布文章</Button>
+						<Button size="large" type="primary" onClick={saveArticle}>发布文章</Button>
 						</Col>
 					</Row>
 					<Col span={24}>
@@ -122,6 +147,7 @@ const AddArticle = (props) => {
 							<DatePicker
 								placeholder="发布日期"
 								size="large"
+								onChange={(data, dataString) => setShowDate(dataString)}
 							/>
 						</div>
 					</Col>

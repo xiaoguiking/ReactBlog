@@ -659,3 +659,95 @@ useEffect(() => {
 清空浏览器 缓存
 ```
 
+
+
+### 第36节：后台开发12-添加文章内容(上)
+
+> **选择 文章类别的调用方法**
+
+页面:  `	admin/src/Pages/AddArticle.js`
+
+```
+//  选择文章类别的方法
+const selectTypeHandler = (value) => {
+	setSelectType(value);
+}
+
+//  使用
+<Select defaultValue={selectedType} onChange={selectTypeHandler}></Select>
+```
+
+
+
+> **发布时间文本框修改** 
+
+选择文章可用后，修改发布日期对应的文本框，增加相应的方法，让选择日期文本框可用
+
+```
+<Col span={12}>
+    <div className="date-select">
+        <DatePicker
+            onChange={(date,dateString)=>setShowDate(dateString)} 
+            placeholder="发布日期"
+            size="large"
+
+        />
+        </div>
+</Col>
+```
+
+> **对文章标题文本框进行修改**
+
+```
+<Col span={16}>
+    <Input 
+            value={articleTitle}
+            placeholder="博客标题" 
+            onChange={e=>{
+
+            setArticleTitle(e.target.value)
+            }}
+            size="large" />
+</Col>
+```
+
+
+
+>  **编写文章保存方法**
+
+````
+const saveArticle = () => {
+	if(!selectedType){
+		message.error('必须选择文章类别');
+		return false;
+	}else if (!articleTitle){
+	message.error('文章名称不能为空');
+	return false;
+	}else if (!articleContent){
+	message.error('文章内容不能为空');
+	return false;
+	}
+	else if (!introducemd){
+	message.error('简介不能为空');
+	return false;
+	}
+	else if (!showDate){
+	message.error('发布日期不能为空');
+	return false;
+	}
+	message.success('检验通过');
+}
+
+没有return false 中断 会和检验通过一起执行
+````
+
+发布文章部分写上保存的方法
+
+```
+<Col span={24}>
+        <Button  size="large">暂存文章</Button>&nbsp;
+        <Button type="primary" size="large" onClick={saveArticle}>发布文章</Button>
+        <br/>
+</Col>
+```
+
