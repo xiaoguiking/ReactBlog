@@ -753,7 +753,7 @@ const saveArticle = () => {
 
 
 
-###  第37节：后台开发13-添加文章内容(中)
+###  第37节：后台开发13-添加文章内容(中 bug修复，问题出在中台await)
 
 完善中台service 和后台admin 的saveArticle 方法
 
@@ -824,4 +824,6 @@ const saveArticle = () => {
 }
 
 ```
+
+
 

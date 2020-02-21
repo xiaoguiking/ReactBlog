@@ -34,17 +34,19 @@ class MainController extends Controller {
   
   // 添加文章
   async addArticle () {
-	  const tmpArticle = this.ctx.request.body;
+	  let tmpArticle = this.ctx.request.body;
 	  // 将tmpArticle插入article表中
-	  const result = this.app.mysql.insert('article', tmpArticle);
+	  const result = await this.app.mysql.insert('article', tmpArticle);
+	  const insertSuccess = result.affectedRows === 1; // 返回true/ false判断是否成功
 	  const insertId = result.insertId;
-	  const insertSuccess = result.affectedRows === 1;
 	  
 	  this.ctx.body = {
 		  isSuccess: insertSuccess,
 		  insertId: insertId
 	  }
   }
+ 
+  
 }
 
 module.exports = MainController;

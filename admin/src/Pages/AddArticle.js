@@ -97,19 +97,22 @@ const AddArticle = (props) => {
 		const dataProps = {}; 
 		// 文章类别
 		dataProps.type_id = selectedType; 
+		console.log(dataProps.type_id , 'type_id');
 		// 文章标题
 		dataProps.title = articleTitle;
 		// 文章内容
-		dataProps.article_count = articleContent;
+		dataProps.article_content = articleContent;
 		// 文章简介
 		dataProps.introduce = introducemd;
 		// 把发布日期字符串变成时间戳
 		const dateText= showDate.replace('-','/')
 		dataProps.addTime = (new Date(dateText).getTime())/1000;
 		
-		if(articleId === 0){
+		if(articleId == 0){
 			console.log('artilceId=:', articleId);
-			dataProps.view_count = Math.ceil(Math.random()*100/1000);
+			// dataProps.view_count = Math.ceil(Math.random()*100+1000);
+			dataProps.view_count = 0 ;
+			console.log(dataProps.view_count, 'view');
 			axios({
 				method: 'post',
 				url: servicePath.addArticle,
@@ -117,7 +120,7 @@ const AddArticle = (props) => {
 				data: dataProps,
 			}).then(
 			res => {
-				setArticleId(res.data.insertId);
+				setArticleId(res.data.insertId);  // 新增
 				if(res.data.isSuccess){
 					message.success('文章保存成功');
 				}else {
