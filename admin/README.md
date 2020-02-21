@@ -827,3 +827,65 @@ const saveArticle = () => {
 
 
 
+###  第38节：后台开发14-添加文章内容(下)
+
+实现需求： 已经加入数据库如果我们继续改动，实现对文章内容更新功能
+
+> **编写中台接口方法**
+
+页面 `service/app/controller/admin/main.js`
+
+```
+编写更新方法 updateArticle 方法
+async updateArticle (){
+	const tmpArticle = this.ctx.request.body;
+	const result = await this.app.mysql.update('article', tmpArticle);
+	const updateSuccess = result.affectedRows === 1;  // 判断
+	console.log(updateSuccess,'updateSuccess');
+	this,ctx.body = {
+		isSuccess: updateSuccess
+	}
+}
+```
+
+> **编写对应的路由**
+
+页面`service/app/router/admin.js`
+
+```
+router.post('/admin/updateArticle', adminauth, controller.admin.main.updateArticle);
+```
+
+> **admin后台统一管理API**
+
+页面`admin/src/config/apiUrl.js`
+
+```
+const servicePath = {
+	updateArticle: ipUrl + 'updateArticle';  更新修改文章
+}
+```
+
+> **admin后台保存方法修改**
+
+在保存的时候使用判断 `if(article === 0)` 如果等于0 说明新添加， 如果不等于0，说明是修改
+
+```
+else {
+ dataProps.id = articleId;
+ axios({
+ 	method: 'post',
+ 	url: servicePath.updateArticle,
+ 	withCredentials: true,
+ 	data: dataProps,
+ }).then(
+ res => {
+ 	if(res.data.isSuccess){
+ 		message.success('文章修改成功');
+ 	}else {
+ 		message.error('文章修改失败');
+ 	}
+ })
+}
+```
+

@@ -127,6 +127,21 @@ const AddArticle = (props) => {
 					message.error('文章保存失败');
 				}
 			})
+		} else {
+			dataProps.id = articleId;
+			axios({
+				method: 'post',
+				url: servicePath.updateArticle,
+				data: dataProps,
+				withCredentials: true,
+			}).then( 
+			res => {
+				if(res.data.isSuccess){
+					message.success('文章修改成功');
+				}else {
+					message.error('文章修改失败');
+				}
+			})
 		}
 	}
 	return (

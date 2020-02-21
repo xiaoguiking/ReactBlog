@@ -34,7 +34,7 @@ class MainController extends Controller {
   
   // 添加文章
   async addArticle () {
-	  let tmpArticle = this.ctx.request.body;
+	  const tmpArticle = this.ctx.request.body;
 	  // 将tmpArticle插入article表中
 	  const result = await this.app.mysql.insert('article', tmpArticle);
 	  const insertSuccess = result.affectedRows === 1; // 返回true/ false判断是否成功
@@ -46,7 +46,16 @@ class MainController extends Controller {
 	  }
   }
  
-  
+  // 修改文章
+  async updateArticle () {
+	  const tmpArticle = this.ctx.request.body;
+	  const result = await this.app.mysql.update('article', tmpArticle);
+	  const updateSuccess = result.affectedRows === 1; // bool
+	  console.log(updateSuccess, 'updateSuccess');
+	 this.ctx.body = {
+		 isSuccess: updateSuccess,
+	 }
+  }
 }
 
 module.exports = MainController;
