@@ -47,7 +47,7 @@ class MainController extends Controller {
   }
  
   // 修改文章
-  async updateArticle () {
+  async updateArticle() {
 	  const tmpArticle = this.ctx.request.body;
 	  const result = await this.app.mysql.update('article', tmpArticle);
 	  const updateSuccess = result.affectedRows === 1; // bool
@@ -55,6 +55,21 @@ class MainController extends Controller {
 	 this.ctx.body = {
 		 isSuccess: updateSuccess,
 	 }
+  }
+  
+  // 获取文章列表
+  async getArticleList () {
+	   const sql = 'SELECT article.id as id,'+
+	                  'article.title as title,'+
+	                  'article.introduce as introduce,'+
+	                  "FROM_UNIXTIME(article.addTime,'%Y-%m-%d' ) as addTime,"+
+	                  'type.typeName as typeName '+
+	                  'FROM article LEFT JOIN type ON article.type_id = type.Id '+
+	                  'ORDER BY article.id DESC ';
+	  const resList = await this.app.mysql.query(sql);
+	  
+	  this.ctx.body = {data: resList}
+	  
   }
 }
 

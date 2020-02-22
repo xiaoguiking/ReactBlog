@@ -1,14 +1,28 @@
 import React, { useState } from 'react';
 import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 import '../static/css/AdminIndex.css';
-import { Route } from 'react-router-dom';
-import AddArticle from '../Pages/AddArticle';
 
-const { Header, Content, Footer, Sider } = Layout;
+import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
+import AddArticle from './AddArticle.js';   // 添加文章
+import ArticleList from './ArticleList.js';  // 文章列表
+
+
+const { Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
-const AdminIndex = () => {
+const AdminIndex = (props) => {
   const [collapsed, setCollapsed] = useState(false)
+
+  // 路由方法
+  const handleClickArticle = e => {
+    console.log(e.item.props)
+    if (e.key == 'addArticle') {
+      props.history.push('/index/add')
+    } else {
+      props.history.push('/index/list')
+    }
+
+  }
 
   const onCollapse = collapsed => {
     setCollapsed(collapsed)
@@ -26,21 +40,26 @@ const AdminIndex = () => {
             <Icon type="desktop" />
             <span>添加文章</span>
           </Menu.Item>
+
+
           <SubMenu
             key="sub1"
+            onClick={handleClickArticle}
             title={
               <span>
-                <Icon type="user" />
+                <Icon type="file" />
                 <span>文章管理</span>
               </span>
             }
           >
-            <Menu.Item key="3">添加文章</Menu.Item>
-            <Menu.Item key="4">文章列表</Menu.Item>
-
+            <Menu.Item key="addArticle">添加文章</Menu.Item>
+            <Menu.Item key="articleList">文章列表</Menu.Item>
           </SubMenu>
+
+
+
           <Menu.Item key="9">
-            <Icon type="file" />
+            <Icon type="user" />
             <span>留言管理</span>
           </Menu.Item>
         </Menu>
@@ -51,9 +70,16 @@ const AdminIndex = () => {
             <Breadcrumb.Item>后台管理</Breadcrumb.Item>
             <Breadcrumb.Item>工作台</Breadcrumb.Item>
           </Breadcrumb>
-          <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
+          <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>,
             <div>
-              <Route path="/index/" exact component={AddArticle} />
+              <Router>
+                <Switch>
+                <Route path="/index/" exact  component={AddArticle} />
+                <Route path="/index/add/" exact   component={AddArticle} />
+                <Route path="/index/add/:id"  exact   component={AddArticle} />
+                <Route path="/index/list/"   component={ArticleList} />
+                </Switch>
+              </Router>
             </div>
           </div>
         </Content>
@@ -63,4 +89,6 @@ const AdminIndex = () => {
   )
 }
 
-export default AdminIndex
+export default AdminIndex;
+
+

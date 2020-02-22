@@ -556,7 +556,7 @@ router.get('/admin/index',adminauth, controller.amdin.main.index );
 
 
 
-###  第35节：后台开发11-读取文章分类信息  ( bug 路由守卫问题没有解决)
+###  第35节：后台开发11-读取文章分类信息  ( bug 路由守卫问题已经解决)
 
 从中台写入一个读取文章类别的接口，然后从接口汇总获得数据，展现在添加文章页面
 
@@ -889,3 +889,148 @@ else {
 }
 ```
 
+
+
+### 第39节：后台开发15-文章列表制作(上) admin  （bug路由  父子级别路由问题 冲突）
+
+
+
+> **新建ArticleList.js 文件**
+
+页面： `admin/src/pages/ArticleList.js`
+
+```
+import React,{useState, useEffect} from 'react';
+import '../public/css/ArticleList.css';
+import {List, Row, Col, Modal, message, Button, Switch} from 'antd';
+import axios from 'axios';
+import servicePath from '../config/apiUrl';
+
+const {confirm}  = Modal;
+
+function ArticleList(props){
+
+    const [list,setList]=useState([])
+    return (
+        <div>
+             <List
+                header={
+                    <Row className="list-div">
+                        <Col span={8}>
+                            <b>标题</b>
+                        </Col>
+                        <Col span={3}>
+                            <b>类别</b>
+                        </Col>
+                        <Col span={3}>
+                            <b>发布时间</b>
+                        </Col>
+                        <Col span={3}>
+                            <b>集数</b>
+                        </Col>
+                        <Col span={3}>
+                            <b>浏览量</b>
+                        </Col>
+
+                        <Col span={4}>
+                            <b>操作</b>
+                        </Col>
+                    </Row>
+
+                }
+                bordered
+                dataSource={list}
+                renderItem={item => (
+                    <List.Item>
+                        <Row className="list-div">
+                            <Col span={8}>
+                                {item.title}
+                            </Col>
+                            <Col span={3}>
+                             {item.typeName}
+                            </Col>
+                            <Col span={3}>
+                                {item.addTime}
+                            </Col>
+                            <Col span={3}>
+                                共<span>{item.part_count}</span>集
+                            </Col>
+                            <Col span={3}>
+                              {item.view_count}
+                            </Col>
+
+                            <Col span={4}>
+                              <Button type="primary" >修改</Button>&nbsp;
+
+                              <Button >删除 </Button>
+                            </Col>
+                        </Row>
+
+                    </List.Item>
+                )}
+                />
+
+        </div>
+    )
+
+}
+
+export default ArticleList
+```
+
+
+
+>  编写 admin 路由
+
+页面  ``admin/src/pages/AdminIndex.js``
+
+```
+import ArticleList from './ArticleList'
+
+const handleClickArticle = e => {
+ console.log(e.item.props);
+ if(e.key === 'addArticle') {
+  porps.history.push ('/index/add'); 
+ }else {
+ props.history.push('/index/list');
+ }
+}
+
+<div>
+    <Route path="/index/" exact  component={AddArticle} />
+    <Route path="/index/add/" exact   component={AddArticle} />
+    <Route path="/index/add/:id"  exact   component={AddArticle} />
+    <Route path="/index/list/"   component={ArticleList} />
+
+</div>
+
+···
+
+然后找到文章管理，文章列表的部分，修改代码如下：
+
+​```js
+<SubMenu
+    key="sub1"
+    onClick={handleClickArticle}
+    title={
+    <span>
+        <Icon type="desktop" />
+        <span>文章管理</span>
+    </span>
+    }
+>
+    <Menu.Item key="addArticle">添加文章</Menu.Item>
+    <Menu.Item key="articleList">文章列表</Menu.Item>
+
+</SubMenu>
+```
+
+
+
+>  Bug 路由跳转出现空白页问题 未解决
+
+
+
+
+
+###  第39节：后台开发16-文章列表制作(中)
