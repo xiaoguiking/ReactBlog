@@ -1033,4 +1033,139 @@ const handleClickArticle = e => {
 
 
 
-###  第39节：后台开发16-文章列表制作(中)
+###  第40节：后台开发16-文章列表制作(中)
+
+
+
+> 编写中台获取文章列表接口service
+
+页面： `service/app/controller/admin/main.js`
+
+```
+编写getArticleList 方法
+// 获得文章列表
+async getArticleList() {
+ const sql = 'SELECT article.id as id,'+
+                'article.title as title,'+
+                'article.introduce as introduce,'+
+                "FROM_UNIXTIME(article.addTime,'%Y-%m-%d' ) as addTime,"+
+                'type.typeName as typeName '+
+                'FROM article LEFT JOIN type ON article.type_id = type.Id '+
+                'ORDER BY article.id DESC ';  // 查看顺序;
+         const resList = await this.app.mysql.query(sql);
+         this.ctx.body = {data: resList};  // 这里的data 对应data对应获取admin 后台data
+}
+```
+
+> 编写对应的路由
+
+```
+router.get('/admin/getArticleList', adminauth, controller.admin.main.getArticleList);
+```
+
+
+
+> admin 统一api管理 apiUrl.js
+
+```
+const servicePath = {
+	getArticleList: ipUrl + 'getArticleList',   // 文章列表
+}
+```
+
+> admin后台获取数据 文章列表
+
+页面： `admin/src/Pages/ArticleList.js`
+
+```
+// 请求数据得到文章列表
+
+const getList = () => {
+  axios({
+  	method: 'get',
+  	url: servicePath.getgetArticleList,
+  	withCredentials: true,
+    header:{ 'Access-Control-Allow-Origin':'*' }
+  }).then((res) => {
+  	setList(res.data.data);  //  注意这里的data对应的是后台接口的data
+  })
+}
+
+刚进入页面 获得文章列表
+
+useEffect(() => {
+	getList();
+},[])
+
+```
+
+
+
+###  第41节：后台开发17-删除文章
+
+
+
+>  **service删除文章中台方法编写**
+
+页面 `service/app/controller/admin/main.js`
+
+```
+// 删除文章
+
+async deleteArticle (){
+	const id = this.ctex.params.id  // 接受id
+	const res = await this.app.mysql.delete('article', {'id': id});
+	this.ctx.body = {
+	data: res
+	}
+}
+```
+
+>  **路由配置**
+
+页面： `router/admin.js`
+
+```
+ router.get('/admin/delArticle/:id',adminauth,controller.admin.main.delArticle)  // 删除文章
+```
+
+> **admin 统一api管理文件**
+
+页面 `admin/src/config/apiUrl.js`
+
+```
+deleteArticle: ipUrl + 'deleteArticle/',  // 删除文章
+```
+
+> **管理页面删除方法编写**
+
+页面 `admin/src/pages/ArticleList.js`
+
+```
+// 编写删除方法delArticle
+
+cosnt delArticle = （id） => {
+	confirm({
+		title: '确定要删除这篇文章吗'
+		content: '如果点击ok按钮，文章用删除并且无法恢复',
+		on(){
+		axios(
+		servicePath.deleteArticele + id, {withCredentials: true}.then(
+		res => {
+		 message.success('文章删除成功');
+		 getList(); // 删除 之后再次请求数据
+		}
+		)
+		)
+		}，
+		onCancel(){
+		message.success('没有发生改变');
+		}
+	})
+}
+```
+
+```
+<Button onClick={()=>{delArticle(item.id)}} >删除 </Button>
+```
+

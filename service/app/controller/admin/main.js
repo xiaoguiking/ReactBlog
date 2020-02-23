@@ -71,6 +71,13 @@ class MainController extends Controller {
 	  this.ctx.body = {data: resList}
 	  
   }
+  
+  // 删除文章
+  async deleteArticle () {
+	  const id = this.ctx.params.id;
+	  const res = await this.app.mysql.delete('article', {'id': id});
+	  this.ctx.body = {data: res}
+  }
 }
 
 module.exports = MainController;
