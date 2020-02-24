@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import servicePath from '../config/apiUrl.js';
 import '../static/css/ArticleList.css';
-import { List, Row, Col, message, Button, Modal, Switch } from 'antd';
+import { List, Row, Col, message, Button, Modal } from 'antd';
 
 const { confirm } = Modal;
 
@@ -73,7 +73,6 @@ function ArticleList(props) {
             <Col span={3}>
               <b>浏览量</b>
             </Col>
-
             <Col span={4}>
               <b>操作</b>
             </Col>
@@ -99,7 +98,6 @@ function ArticleList(props) {
               <Col span={3}>
                 {item.view_count}
               </Col>
-
               <Col span={4}>
                 <Button type="primary"  onClick={()=> {updateArticle(item.id)}}>修改</Button>&nbsp;
                 <Button onClick={() => {delArticle (item.id)}}>删除 </Button>

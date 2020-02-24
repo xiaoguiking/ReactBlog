@@ -1027,7 +1027,16 @@ const handleClickArticle = e => {
 
 
 
->  Bug 路由跳转出现空白页问题 未解决
+>  Bug 路由跳转出现空白页问题 未解决 ----   解决
+
+```
+精确匹配导致问题
+
+将Main.js 页面 
+
+ <Route path='/index'  component={AdminIndex} />  里面的exact 删除
+```
+
 
 
 

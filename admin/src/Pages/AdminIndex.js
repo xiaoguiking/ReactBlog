@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 import '../static/css/AdminIndex.css';
 
-import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
+import { Route} from 'react-router-dom';
 import AddArticle from './AddArticle.js';   // 添加文章
 import ArticleList from './ArticleList.js';  // 文章列表
 
@@ -27,10 +27,15 @@ const AdminIndex = (props) => {
   const onCollapse = collapsed => {
     setCollapsed(collapsed)
   };
+
+  const divStyle = {
+    fontSize: '20px',
+    color: '#fff',
+  }
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
-        <div className="logo" />
+        <div className="logo" style={divStyle}>React blog admin</div>
         <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
           <Menu.Item key="1">
             <Icon type="pie-chart" />
@@ -72,14 +77,10 @@ const AdminIndex = (props) => {
           </Breadcrumb>
           <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>,
             <div>
-              <Router>
-                <Switch>
-                <Route path="/index/" exact  component={AddArticle} />
-                <Route path="/index/add/" exact   component={AddArticle} />
-                <Route path="/index/add/:id"  exact   component={AddArticle} />
-                <Route path="/index/list/"   component={ArticleList} />
-                </Switch>
-              </Router>
+            <Route path="/index/" exact  component={AddArticle} />
+            <Route path="/index/add/" exact   component={AddArticle} />
+            <Route path="/index/add/:id"  exact   component={AddArticle} />
+            <Route path="/index/list/"   component={ArticleList} />
             </div>
           </div>
         </Content>
@@ -90,5 +91,4 @@ const AdminIndex = (props) => {
 }
 
 export default AdminIndex;
-
 

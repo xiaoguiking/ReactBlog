@@ -4,21 +4,17 @@ import Login from '../Pages/Login';
 import AdminIndex from '../Pages/AdminIndex';
 
 
-import AddArticle from './AddArticle';
-import ArticleList from './ArticleList'
-
 const Main = () => {
     return (
         <Router>
             <Switch>
                 <Route path='/' exact component={Login} />
-                <Route path='/index' exact component={AdminIndex} />
-                <Route path='/index/add' exact component={AddArticle} />
-				 <Route path='/index/add/:id' exact component={AddArticle} />
-                <Route path='/index/list' exact component={ArticleList} />
+                <Route path='/index'  component={AdminIndex} />
             </Switch>
         </Router>
     )
 }
 
 export default Main;
+
+// <Route path='/index'  component={AdminIndex} />  删除这里的精确匹配
