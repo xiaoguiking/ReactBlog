@@ -22,7 +22,7 @@ const AddArticle = (props) => {
 	// const [updateDate, setUpdateDate] = useState() //修改日志的日期
 	const [typeInfo, setTypeInfo] = useState([]) // 文章类别信息
 	const [selectedType, setSelectType] = useState('选择类别') //选择的文章类别
-
+    console.log(selectedType,'123123');
 	// 设置marked 声明完成后需要对marked进行基本的设置
 	marked.setOptions({
 		renderer: new marked.Renderer(),
@@ -51,8 +51,8 @@ const AddArticle = (props) => {
 	// 通过 数组执行一次
 	useEffect(() => {
 		getTypeInfo();
-		// 获取文章指定id
-		const tmpId = props.match.params.id;  // 接受修改文章传过来的id
+		// 获取文章指定id 进行显示修改
+	    let tmpId = props.match.params.id;  // 接受修改文章传过来的id
 		console.log(tmpId, 'tmpId');
 		if(tmpId){
 			setArticleId(tmpId);
@@ -115,7 +115,7 @@ const AddArticle = (props) => {
 		dataProps.addTime = (new Date(dateText).getTime())/1000;
 		
 		if(articleId == 0){
-			console.log('artilceId=:', articleId);
+			console.log('articleId=:', articleId);
 			// dataProps.view_count = Math.ceil(Math.random()*100+1000);
 			dataProps.view_count = 0 ;
 			console.log(dataProps.view_count, 'view');
@@ -150,19 +150,26 @@ const AddArticle = (props) => {
 			})
 		}
 	}
-	
-	
+
 	//  修改指定的文章
 	const getArticleById = (id) => {
 		axios(servicePath.getArticleById + id, {withCredentials: true}).then(
 		res => {
-			console.log(res.data.data, '传递的数据');
-			// const articleInfo = res.data.data[0];
-			// setArticleTitle(articleInfo.title);
-			// setArticleContent(articleInfo.content);
-			
+			console.log(res.data, '传递的数据');
+			const articleInfo = res.data.data[0];
+			setArticleTitle(articleInfo.title);
+			setArticleContent(articleInfo.article_content);
+			const html = marked(articleInfo.article_content);
+			setMarkdownContent(html);
+			setIntroducemd(articleInfo.introduce);
+			const tmpInt = marked(articleInfo.introduce)
+			setIntroducehtml(tmpInt);
+			setShowDate(articleInfo.addTime);
+			setSelectType(articleInfo.typeId);
+
 		})
 	}
+
 	return (
 		<div>
 			<Row gutter={5}>
@@ -190,7 +197,7 @@ const AddArticle = (props) => {
 					<br />
 					<Row gutter={10}>
 						<Col span={12}>
-							<TextArea placeholder="文章内容" className="markdown-content" rows={35} onChange={changeContent} />
+							<TextArea placeholder="文章内容" className="markdown-content" rows={35} onChange={changeContent}  value={articleContent}/>
 						</Col>
 						<Col span={12}>
 							<div className="show-html" dangerouslySetInnerHTML={{ __html: markdownContent }}></div>
@@ -206,7 +213,7 @@ const AddArticle = (props) => {
 					</Row>
 					<Col span={24}>
 						<br />
-						<TextArea placeholder="文章简介" rows={4} onChange={changeIntroduce}>
+						<TextArea placeholder="文章简介" rows={4} onChange={changeIntroduce} value={introducemd}>
 						</TextArea>
 						<br /><br />
 						<div className="introduce-html" dangerouslySetInnerHTML={{ __html: '文章简介:' + introducehtml }}></div>

@@ -31,67 +31,71 @@ class MainController extends Controller {
     const resType = await this.app.mysql.select('type');
     this.ctx.body = { data: resType };
   }
-  
+
   // 添加文章
-  async addArticle () {
-	  const tmpArticle = this.ctx.request.body;
-	  // 将tmpArticle插入article表中
-	  const result = await this.app.mysql.insert('article', tmpArticle);
-	  const insertSuccess = result.affectedRows === 1; // 返回true/ false判断是否成功
-	  const insertId = result.insertId;
-	  
-	  this.ctx.body = {
-		  isSuccess: insertSuccess,
-		  insertId: insertId
-	  }
+  async addArticle() {
+    const tmpArticle = this.ctx.request.body;
+    // 将tmpArticle插入article表中
+    const result = await this.app.mysql.insert('article', tmpArticle);
+    const insertSuccess = result.affectedRows === 1; // 返回true/ false判断是否成功
+    const insertId = result.insertId;
+
+    this.ctx.body = {
+      isSuccess: insertSuccess,
+      insertId,
+    };
   }
- 
+
   // 修改文章
   async updateArticle() {
-	  const tmpArticle = this.ctx.request.body;
-	  const result = await this.app.mysql.update('article', tmpArticle);
-	  const updateSuccess = result.affectedRows === 1; // bool
-	  console.log(updateSuccess, 'updateSuccess');
-	 this.ctx.body = {
-		 isSuccess: updateSuccess,
-	 }
+    const tmpArticle = this.ctx.request.body;
+    const result = await this.app.mysql.update('article', tmpArticle);
+    const updateSuccess = result.affectedRows === 1; // bool
+    console.log(updateSuccess, 'updateSuccess');
+    this.ctx.body = {
+      isSuccess: updateSuccess,
+    };
   }
-  
+
   // 获取文章列表
-  async getArticleList () {
-	   const sql = 'SELECT article.id as id,'+
-	                  'article.title as title,'+
-	                  'article.introduce as introduce,'+
-	                  "FROM_UNIXTIME(article.addTime,'%Y-%m-%d' ) as addTime,"+
-	                  'type.typeName as typeName '+
-	                  'FROM article LEFT JOIN type ON article.type_id = type.Id '+
-	                  'ORDER BY article.id DESC ';
-	  const resList = await this.app.mysql.query(sql);
-	  
-	  this.ctx.body = {data: resList}
-	  
+  async getArticleList() {
+    const sql = 'SELECT article.id as id,' +
+      'article.title as title,' +
+      'article.introduce as introduce,' +
+      "FROM_UNIXTIME(article.addTime,'%Y-%m-%d' ) as addTime," +
+      'type.typeName as typeName ' +
+      'FROM article LEFT JOIN type ON article.type_id = type.Id ' +
+      'ORDER BY article.id DESC ';
+    const resList = await this.app.mysql.query(sql);
+    this.ctx.body = { data: resList };
+
   }
-  
+
   // 删除文章
-  async deleteArticle () {
-	  const id = this.ctx.params.id;
-	  const res = await this.app.mysql.delete('article', {'id': id});
-	  this.ctx.body = {data: res}
+  async deleteArticle() {
+    const id = this.ctx.params.id;
+    const res = await this.app.mysql.delete('article', { 'id': id });
+    this.ctx.body = { data: res };
   }
-  
+
   //  修改文章
   async getArticleById() {
-	  const id  = this.ctx.params.id;
-	  const sql = 'SELECT article.id as id,'+
-	                 'article.title as title,'+
-	                 'article.introduce as introduce,'+
-	                 "FROM_UNIXTIME(article.addTime,'%Y-%m-%d' ) as addTime,"+
-	                 'type.typeName as typeName '+
-	                 'FROM article LEFT JOIN type ON article.type_id = type.Id '+
-	                 'WHERE type_id' + id;
-	const res = this.app.mysql.query(sql);
-	this.ctx.body = {data: res}
+    const id = this.ctx.params.id;
+    const sql = 'SELECT article.id as id,' +
+      'article.title as title,' +
+      'article.introduce as introduce,' +
+      'article.article_content as article_content,' +
+      "FROM_UNIXTIME(article.addTime,'%Y-%m-%d' ) as addTime," +
+      'article.view_count as view_count ,' +
+      'type.typeName as typeName ,' +
+      'type.id as typeId ' +
+      'FROM article LEFT JOIN type ON article.type_id = type.Id ' +
+      'WHERE article.id=' + id;
+    const res = await this.app.mysql.query(sql);
+    // 注意await异步问题，
+    this.ctx.body = { data: res };
   }
+
 }
 
 module.exports = MainController;

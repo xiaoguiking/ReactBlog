@@ -7,14 +7,13 @@ import { List, Row, Col, message, Button, Modal, Switch } from 'antd';
 const { confirm } = Modal;
 
 function ArticleList(props) {
-  console.log('进入页面');
+
   const [list, setList]=useState([])
   
-  console.log(list, '请求得到list');
   useEffect(()=>{
 	 getList(); 
-	 
   },[])
+
   // 获取文章列表方法
   const getList = () => {
 	  axios({
@@ -50,7 +49,7 @@ function ArticleList(props) {
 	}
  
  // 修改文章
- const updateArticle = (id, checked) =>{
+ const updateArticle = (id) =>{
 	 props.history.push('/index/add/'+ id);
  }
  

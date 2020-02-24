@@ -1171,7 +1171,9 @@ cosnt delArticle = （id） => {
 
 
 
-### 第42节：后台开发18-修改文章（上）
+### 	###  第42节：后台开发18-修改文章（上）
+
+
 
 >  **编写中台接口方法**
 
@@ -1212,5 +1214,35 @@ router.get(/admin/getArticleById/:id, adminauth, controller.admin.main.getArticl
 
 ```
 getArticleId: ipUrl + 'getArticleId'/,  // 根据id 获取文章详情
+```
+
+> updateArticle 方法编写
+
+页面 `admin/src/pages/ArticleList.js`
+
+```
+// 修改文章方法 updateArticle 跳转到添加页面的方法
+const updateArticle  = (id) => {
+ porps.history.push ('/index/add'+ id);
+}
+```
+
+###  第43节：后台开发19-修改文章（下）
+
+> **getArticleById方法编写**
+
+页面： `admin/src/pages/AddArticle.js`
+
+```
+const getArticleById = (id) => {
+ axios(servicePath.getArticleByid+ id, {
+   withCredentials: true,
+   header:{ 'Access-Control-Allow-Origin':'*' }
+ }).then(
+ res=> {
+  
+ }
+ )
+}
 ```
 
