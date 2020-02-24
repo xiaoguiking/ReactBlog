@@ -7,6 +7,7 @@ const servicePath = {
 	updateArticle: ipUrl + 'updateArticle', // 更新修改文章
 	getArticleList: ipUrl + 'getArticleList', // 获取文章列表
 	deleteArticle: ipUrl + 'deleteArticle/',  // 删除文章
+	getArticleById: ipUrl + 'getArticleById/', //  修改文章
 }
 
 export default servicePath;

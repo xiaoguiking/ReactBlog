@@ -78,6 +78,20 @@ class MainController extends Controller {
 	  const res = await this.app.mysql.delete('article', {'id': id});
 	  this.ctx.body = {data: res}
   }
+  
+  //  修改文章
+  async getArticleById() {
+	  const id  = this.ctx.params.id;
+	  const sql = 'SELECT article.id as id,'+
+	                 'article.title as title,'+
+	                 'article.introduce as introduce,'+
+	                 "FROM_UNIXTIME(article.addTime,'%Y-%m-%d' ) as addTime,"+
+	                 'type.typeName as typeName '+
+	                 'FROM article LEFT JOIN type ON article.type_id = type.Id '+
+	                 'WHERE type_id' + id;
+	const res = this.app.mysql.query(sql);
+	this.ctx.body = {data: res}
+  }
 }
 
 module.exports = MainController;

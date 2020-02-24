@@ -1169,3 +1169,48 @@ cosnt delArticle = （id） => {
 <Button onClick={()=>{delArticle(item.id)}} >删除 </Button>
 ```
 
+
+
+### 第42节：后台开发18-修改文章（上）
+
+>  **编写中台接口方法**
+
+页面 `service/app/controller/admin/main.js`
+
+```
+// 根据文章I得到文章详情， 用于修改文章 getArticleById
+async getArticle() {
+	const id = this.ctx.params.id;  // 接收传递过来的id
+	const id = 'SELECT article.id as id,'+
+    'article.title as title,'+
+    'article.introduce as introduce,'+
+    'article.article_content as article_content,'+
+    "FROM_UNIXTIME(article.addTime,'%Y-%m-%d' ) as addTime,"+
+    'article.view_count as view_count ,'+
+    'type.typeName as typeName ,'+
+    'type.id as typeId '+
+    'FROM article LEFT JOIN type ON article.type_id = type.Id '+
+    'WHERE article.id='+id;  // 查询文章的id
+    const result = await this.app.mysql.query(sql);
+    this.ctx.body = {
+    data: result;
+    }
+}
+```
+
+> **service配置路由**
+
+页面： `router/admin.js`
+
+```
+router.get(/admin/getArticleById/:id, adminauth, controller.admin.main.getArticleById);
+```
+
+> **admin 统一api管理**
+
+页面： `admin/src/config/apiUrl.js`
+
+```
+getArticleId: ipUrl + 'getArticleId'/,  // 根据id 获取文章详情
+```
+

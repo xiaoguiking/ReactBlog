@@ -51,6 +51,13 @@ const AddArticle = (props) => {
 	// 通过 数组执行一次
 	useEffect(() => {
 		getTypeInfo();
+		// 获取文章指定id
+		const tmpId = props.match.params.id;  // 接受修改文章传过来的id
+		console.log(tmpId, 'tmpId');
+		if(tmpId){
+			setArticleId(tmpId);
+			getArticleById(tmpId); // 刚才的方法传递id
+		}
 	}, [])
 
 	// 获取文章类别 axios
@@ -77,7 +84,6 @@ const AddArticle = (props) => {
 	}
 
 	// 编写文章保存方法
-
 	const saveArticle = () => {
 		if (!articleTitle) {
 			message.error('文章标题不能为空');
@@ -143,6 +149,19 @@ const AddArticle = (props) => {
 				}
 			})
 		}
+	}
+	
+	
+	//  修改指定的文章
+	const getArticleById = (id) => {
+		axios(servicePath.getArticleById + id, {withCredentials: true}).then(
+		res => {
+			console.log(res.data.data, '传递的数据');
+			// const articleInfo = res.data.data[0];
+			// setArticleTitle(articleInfo.title);
+			// setArticleContent(articleInfo.content);
+			
+		})
 	}
 	return (
 		<div>
