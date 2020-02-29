@@ -50,6 +50,7 @@ const AddArticle = (props) => {
 	}
 	// 通过 数组执行一次
 	useEffect(() => {
+		// eslint-disable-next-line 
 		getTypeInfo();
 		// 获取文章指定id 进行显示修改
 	    let tmpId = props.match.params.id;  // 接受修改文章传过来的id
@@ -58,7 +59,7 @@ const AddArticle = (props) => {
 			setArticleId(tmpId);
 			getArticleById(tmpId); // 刚才的方法传递id
 		}
-	}, [])
+	}, [props.match.params.id])
 
 	// 获取文章类别 axios
 	const getTypeInfo = () => {

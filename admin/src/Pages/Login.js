@@ -50,7 +50,7 @@ const Login = (props) => {
         }).then((res) => {
             console.log(res.data, 'post 发送数据');
             setIsLoading(false);
-            if (res.data.data == '登录成功') {
+            if (res.data.data === '登录成功') {
                 localStorage.setItem('openId', res.data.openId);
                 props.history.push('/index');
             } else {
