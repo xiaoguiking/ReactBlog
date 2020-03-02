@@ -462,7 +462,7 @@ const checkLogin = () => {
 }
 ```
 
-![image-20200218193238318](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20200218193238318.png)
+![](https://github.com/xiaoguiking/ReactBlog/blob/master/gitImages/image-20200218193238318.png)
 
 > 解决跨域
 

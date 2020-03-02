@@ -212,7 +212,22 @@ article表（文章内容表）
 在/app/contoller/default/home.js文件夹中，写一个getArticleList的方法，
 
 ```
+async getArticleList(){
 
+   let sql = 'SELECT article.id as id,'+
+             'article.title as title,'+
+             'article.introduce as introduce,'+
+             'article.addTime as addTime,'+
+             'article.view_count as view_count ,'+
+             '.type.typeName as typeName '+
+             'FROM article LEFT JOIN type ON article.type_id = type.Id'
+
+    const results = await this.app.mysql.query(sql)
+
+    this.ctx.body={
+        data:results
+    }
+}
 ```
 
 需要配置一下路由（router），打开/app/router/default.js,新建立一个get形式的路由配置，代码如下：
@@ -452,9 +467,7 @@ Detailed.getInitialProps = async (context) => {
 
 > 跨域问题
 
-![image-20200211204536329](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20200211204536329.png)
-
-
+![](https://github.com/xiaoguiking/ReactBlog/blob/master/gitImages/image-20200211204536329.png)
 
 ### 第19节：解决Egg.js跨域问题和Bug调试（重点 注意问题出在中台  403）
 
@@ -622,7 +635,7 @@ let html = marked(props.article_count);
 
 
 
-![image-20200214170912672](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20200214170912672.png)
+![](https://github.com/xiaoguiking/ReactBlog/blob/master/gitImages/image-20200214170912672.png)
 
 
 
