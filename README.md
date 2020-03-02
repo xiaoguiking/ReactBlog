@@ -585,5 +585,5 @@ Detailed.getInitialProps = async (context) => {
 
 > 跨域问题
 
-![image-20200211204536329](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20200211204536329.png)
+![](https://github.com/xiaoguiking/ReactBlog/blob/master/gitImages/image-20200211204536329.png)
 
