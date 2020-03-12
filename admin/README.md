@@ -2,34 +2,39 @@
 ## Available Scripts  admin（后台管理系统）
 
 
+```
+yarn start
 
-### `yarn start`
-
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-
-
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+[http://localhost:3000](http://localhost:3000) to view it in the browser
+```
 
 
 
-### 第25节：后台开发1-开发环境搭建
+- [第25节后台开发1-开发环境搭建](###第25节后台开发1-开发环境搭建)
+- [第26节后台开发2-页面路由配置](###第26节后台开发2-页面路由配置)
+- [第27节后台开发3-登录页面UI制作](###第27节后台开发3-登录页面UI制作)
+- [第28节后台开发4-UI框架的Layout搭建](###第28节后台开发4-UI框架的Layout搭建)
+- [第29节后台开发5-添加文章页面制作1](###第29节后台开发5-添加文章页面制作1)
+- [第30节后台开发6-添加文章页面制作2](###第30节后台开发6-添加文章页面制作2)
+- [第31节后台开发7-Markdown转HTML,marked语法解析写入）](###第31节后台开发7-Markdown转HTML,marked语法解析写入）)
+- [第32节后台开发8-中台service登录接口编写（中台连接后台）](###第32节后台开发8-中台service登录接口编写（中台连接后台）)
+- [第33节后台开发9-后台登录功能的实现（bug）](###第33节后台开发9-后台登录功能的实现（bug）)
+- [第34节后台开发10-中台路由守卫制作（中台使用中间件）](###第34节后台开发10-中台路由守卫制作（中台使用中间件）)
+- [第35节后台开发11-读取文章分类信息(bug路由守卫问题已经解决)](###第35节后台开发11-读取文章分类信息(bug路由守卫问题已经解决))
+- [第36节后台开发12-添加文章内容(上)](###第36节后台开发12-添加文章内容(上))
+- [第37节后台开发13-添加文章内容((中)bug修复，问题出在中台await)](###第37节后台开发13-添加文章内容(中bug修复问题出在中台await))
+- [第38节后台开发14-添加文章内容(下)](###第38节后台开发14-添加文章内容(下))
+- [第39节后台开发15-文章列表制作(上) admin（bug路由父子级别路由问题冲突](###第39节后台开发15-文章列表制作(上)admin（bug路由父子级别路由问题冲突）)
+- [第40节后台开发16-文章列表制作(中)](###第40节后台开发16-文章列表制作(中))
+- [第41节后台开发17-删除文章](###第41节后台开发17-删除文章)
+- [第42节后台开发18-修改文章（上）](##第42节后台开发18-修改文章（上）)
+- [第43节后台开发19-修改文章（下）](###第43节后台开发19-修改文章（下）)
+- [第44节后台开发部署](###第44节后台开发部署)
 
 
+
+
+### 第25节后台开发1-开发环境搭建
 
 - 建立后台脚手架 
 
@@ -96,7 +101,7 @@ ReactDOM.render(<App />, document.getElementById('root'));
 
 
 
-### 第26节：后台开发2-页面路由配置
+### 第26节后台开发2-页面路由配置
 
 - 安装路由管理包 
   
@@ -106,7 +111,7 @@ ReactDOM.render(<App />, document.getElementById('root'));
 
 
 
-### 第27节：后台开发3-登录页面UI制作
+### 第27节后台开发3-登录页面UI制作
 
 src/static/css/Login.css
 
@@ -116,7 +121,7 @@ isLoading主要用于控制Spin组件是否进入加载状态，进入加载状�
 
 
 
-### 第28节：后台开发4-UI框架的Layout搭建
+### 第28节后台开发4-UI框架的Layout搭建
 
 > Layout 布局
 
@@ -127,7 +132,7 @@ API地址：https://ant.design/components/layout-cn/
 
 
 
-### 第29节：后台开发5-添加文章页面制作1
+### 第29节后台开发5-添加文章页面制作1
 
 
 /src/Pages/AddArticle.js  添加文章页面
@@ -249,7 +254,7 @@ import {Route} from 'react-dom-router';
 
 
 
-### 第30节：后台开发6-添加文章页面制作2
+### 第30节后台开发6-添加文章页面制作2
 
 - 暂存和发布按钮
 - 编写文章简介
@@ -257,7 +262,7 @@ import {Route} from 'react-dom-router';
 
 
 
-### 第31节：后台开发7-Markdown转HTML （marked ， 语法解析写入	）
+### 第31节后台开发7-Markdown转HTML,marked语法解析写入）
 
  > bug
 ```
@@ -306,7 +311,7 @@ const changContent = (e) => {
 
 
 
-### 第32节：后台开发8-中台service登录接口编写 （中台连接后台）
+### 第32节后台开发8-中台service登录接口编写（中台连接后台）
 
 
 
@@ -398,7 +403,7 @@ password: 123
 
 
 
-###  第33节：后台开发9-后台登录功能的实现 （bug）
+###  第33节后台开发9-后台登录功能的实现（bug）
 
 > 设置中台路由
 
@@ -501,7 +506,7 @@ const checkLogin = () => {
 
 
 
-###   第34节：后台开发10-中台路由守卫制作  （中台使用中间件	）
+###  第34节后台开发10-中台路由守卫制作（中台使用中间件）
 
 
 
@@ -556,7 +561,7 @@ router.get('/admin/index',adminauth, controller.amdin.main.index );
 
 
 
-###  第35节：后台开发11-读取文章分类信息  ( bug 路由守卫问题已经解决)
+###  第35节后台开发11-读取文章分类信息( bug 路由守卫问题已经解决)
 
 从中台写入一个读取文章类别的接口，然后从接口汇总获得数据，展现在添加文章页面
 
@@ -661,7 +666,7 @@ useEffect(() => {
 
 
 
-### 第36节：后台开发12-添加文章内容(上)
+### 第36节后台开发12-添加文章内容(上)
 
 > **选择 文章类别的调用方法**
 
@@ -753,7 +758,7 @@ const saveArticle = () => {
 
 
 
-###  第37节：后台开发13-添加文章内容(中 bug修复，问题出在中台await)
+###  第37节后台开发13-添加文章内容(中 bug修复，问题出在中台await)
 
 完善中台service 和后台admin 的saveArticle 方法
 
@@ -827,7 +832,7 @@ const saveArticle = () => {
 
 
 
-###  第38节：后台开发14-添加文章内容(下)
+###  第38节后台开发14-添加文章内容(下)
 
 实现需求： 已经加入数据库如果我们继续改动，实现对文章内容更新功能
 
@@ -891,8 +896,7 @@ else {
 
 
 
-### 第39节：后台开发15-文章列表制作(上) admin  （bug路由  父子级别路由问题 冲突）
-
+### 第39节后台开发15-文章列表制作(上) admin（bug路由父子级别路由问题冲突）
 
 
 > **新建ArticleList.js 文件**
@@ -1042,7 +1046,7 @@ const handleClickArticle = e => {
 
 
 
-###  第40节：后台开发16-文章列表制作(中)
+### 第40节后台开发16-文章列表制作(中)
 
 
 
@@ -1110,7 +1114,7 @@ useEffect(() => {
 
 
 
-###  第41节：后台开发17-删除文章
+###  第41节后台开发17-删除文章
 
 
 
@@ -1180,7 +1184,7 @@ cosnt delArticle = （id） => {
 
 
 
-### 	###  第42节：后台开发18-修改文章（上）
+### 第42节后台开发18-修改文章（上）
 
 
 
@@ -1236,7 +1240,7 @@ const updateArticle  = (id) => {
 }
 ```
 
-###  第43节：后台开发19-修改文章（下）
+### 第43节后台开发19-修改文章（下）
 
 > **getArticleById方法编写**
 
@@ -1254,4 +1258,4 @@ const getArticleById = (id) => {
  )
 }
 ```
-
+### 第44节后台开发部署

@@ -2,30 +2,34 @@
 
 
 
-## QuickStart
-
-
-
-see [egg docs][egg] for more detail.
-
-### Development
-
 ```bash
 $ npm i            yarn
 $ npm run dev	   yarn  dev
 $ open http://localhost:7001/
 ```
 
-### Deploy
 
-```bash
-$ npm start  
-$ npm stop
-```
+## service 目录
+- [12中台搭建egg.js(01)service](###12中台搭建egg.js(01)service)
+- [13中台搭建02目录结构和约定规范](###13中台搭建02目录结构和约定规范)
+- [第14节中台搭建03RESTFulapi设计和路由配置](###第14节中台搭建03RESTFulapi设计和路由配置)
+- [第15节中台搭建04-Egg.js中连接mysql数据库(安装环境有坑点)](###第15节中台搭建04-Egg.js中连接mysql数据库(安装环境有坑点))
+- [第16节中台搭建5-数据库设计和首页文章接口编写(bug修复)](###第16节中台搭建5-数据库设计和首页文章接口编写(bug修复))
+- [第17节前中台结合1-前台读取首页文章列表（bug点](###第17节前中台结合1-前台读取首页文章列表（bug点）)
+- [第18节前中台结合2-文章详细页面接口制作(通过id跳转到指定的详情页)](###第18节前中台结合2-文章详细页面接口制作(通过id跳转到指定的详情页))
+- [第19节解决Egg.js跨域问题和Bug调试（重点注意问题出在中台403](###第19节解决Egg.js跨域问题和Bug调试（重点注意问题出在中台403）)
+- [第20节重构前台博客详细页面1-marked+highlight.js](###第20节重构前台博客详细页面1-marked+highlight.js)
+- [第21节重构前台博客详细页面2-文章导航](###第21节重构前台博客详细页面2-文章导航)
+- [第22节前台文章列表也的制作-接口制作（编写统一中台API配置文件Header组件）](###第22节前台文章列表也的制作-接口制作（编写统一中台API配置文件Header组件）)
+- [第23节前台文章列表页的制作2-界面制作](###第23节前台文章列表页的制作2-界面制作)
+- [第24节让前台所有页面支持Markdown](###第24节让前台所有页面支持Markdown)
 
 
 
-### 12 中台搭建 egg.js( 01）service
+
+
+
+### 12中台搭建egg.js(01)service
 
 
 
@@ -66,7 +70,7 @@ Github地址：https://github.com/eggjs/egg
 
 
 
-### 13 中台搭建02  目录结构和约定规范
+### 13中台搭建02目录结构和约定规范
 
 实现list demo
 
@@ -88,7 +92,7 @@ router.get('/list',controller.home.list);
 
 
 
-### 第14节：中台搭建03 RESTFul api 设计和路由配置
+### 第14节中台搭建03RESTFulapi设计和路由配置
 
 
 有数据的获得和业务逻辑的操作都是通过中台实现的，也就是说中台只提供接口，这里的设计我们采用RESTful的规则，让egg为前端提供Api接口，实现中台主要的功能。
@@ -122,7 +126,7 @@ module.exports = app => {
 
 
 
-### 第15节： 中台搭建04-Egg.js中连接mysql数据库(安装环境有坑点)
+### 第15节中台搭建04-Egg.js中连接mysql数据库(安装环境有坑点)
 
 Egg.js 中使用mysql数据库
 
@@ -184,7 +188,7 @@ exports.mysql = {
 
 
 
-### 第16节：中台搭建5-数据库设计和首页文章接口编写(bug 修复)
+### 第16节中台搭建5-数据库设计和首页文章接口编写(bug 修复)
 
 数据库建立设计
 
@@ -281,7 +285,7 @@ http://127.0.0.1:7001/default/getArticleList。如果能出现结果，说明我
 
 
 
-### 第17节：前中台结合1-前台读取首页文章列表（bug 点）
+### 第17节前中台结合1-前台读取首页文章列表（bug点）
 
 > bug  前台和中台关于数据请求结构问题
 
@@ -385,7 +389,7 @@ const Home = (list) =>{
 
 
 
-### 第18节：前中台结合2-文章详细页面接口制作  (通过id跳转到指定的详情页)
+### 第18节前中台结合2-文章详细页面接口制作(通过id跳转到指定的详情页)
 
 >  编写中台详细接口
 
@@ -469,7 +473,7 @@ Detailed.getInitialProps = async (context) => {
 
 ![](https://github.com/xiaoguiking/ReactBlog/blob/master/gitImages/image-20200211204536329.png)
 
-### 第19节：解决Egg.js跨域问题和Bug调试（重点 注意问题出在中台  403）
+### 第19节解决Egg.js跨域问题和Bug调试（重点注意问题出在中台403）
 
 > 安装egg-cors  中台解决跨域
 
@@ -563,7 +567,7 @@ Detailed.getInitialProps = async (context) => {
 
   
 
-### 第20节：重构前台博客详细页面1-marked+highlight.js
+### 第20节重构前台博客详细页面1-marked+highlight.js
 
 
 
@@ -656,7 +660,7 @@ let html = marked(props.article_count);
 
 
 
-### 第21节：重构前台博客详细页面2-文章导航
+### 第21节重构前台博客详细页面2-文章导航
 
 
 
@@ -801,7 +805,7 @@ renderer.heading = function(text, level, raw) {
 
 
 
-### 第22节：前台文章列表也的制作-接口制作 （编写统一中台API配置文件 Header 组件）
+### 第22节前台文章列表也的制作-接口制作（编写统一中台API配置文件Header组件）
 
 
 
@@ -953,7 +957,7 @@ const handleClick = （e）=> {
 
 
 
-###  第23节：前台文章列表页的制作2-界面制作
+###  第23节前台文章列表页的制作2-界面制作
 
 
 
@@ -1051,7 +1055,7 @@ const MyList  = list =>  {
 
 
 
-###   第24节：让前台所有页面支持Markdown （）
+###  第24节让前台所有页面支持Markdown
 
 
 
