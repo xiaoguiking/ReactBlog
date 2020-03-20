@@ -6,7 +6,9 @@
   -  中台 service
   -  后台admin
 
-
+#Bug 记录
+没有exact时候导致页面没有传递相对应的数据
+体验在修改文章
 ### 45 路由二次修改 开始细节加入
 
 **组件拆分**
@@ -165,3 +167,9 @@ export default LeftNav;
 
 
 ```
+
+
+### 46引入echarts
+
+
+

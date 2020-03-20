@@ -8,6 +8,10 @@ const menuList = [
         title: '用户管理',
         key: '/index/user',
         icon: 'user',
+    },    {
+        title: '添加文章',
+        key: '/index/add',
+        icon: 'user',
     },
     {
         title: '文章管理',
@@ -16,7 +20,7 @@ const menuList = [
         children: [
             {
                 title: '添加文章',
-                key: '/index/add',
+                key: '/index/add/:id',
                 icon: '',
             },
             {
@@ -27,7 +31,7 @@ const menuList = [
         ]
     },
     {
-        title: '图标',
+        title: '图表echarts',
         key: '/charts',
         icon: 'home',
         children: [// 子菜单列表

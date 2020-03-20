@@ -39,9 +39,9 @@ const AdminIndex = (props) => {
           <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>,
             <div>
               <Switch>
-              <Route path="/index/" component={Home} />
-              <Route path="/index/add" component={AddArticle} />
-              <Route path="/index/add/:id" component={AddArticle} />
+            
+              <Route path="/index/add" exact component={AddArticle} />
+              <Route path="/index/add/:id" exact component={AddArticle} />
               <Route path="/index/list" component={ArticleList} />
               <Route path="/index/user" component={User}/>
               <Route path="/index/charts/bar" component={Bar} />
