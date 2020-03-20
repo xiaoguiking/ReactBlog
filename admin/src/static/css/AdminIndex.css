@@ -1,5 +1,14 @@
 .logo {
-    height: 32px;
-    background: rgba(255, 255, 255, 0.2);
+    height: 80px;
+    /* background: rgba(255, 255, 255, 0.2); */
+    background-color: #002140;
     margin: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .logo span {
+    font-size: 20px;
+    color: darkorchid; 
+    font-weight: 700;
   }

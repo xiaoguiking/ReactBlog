@@ -1,75 +1,36 @@
 import React, { useState } from 'react';
-import { Layout, Menu, Breadcrumb, Icon } from 'antd';
+import { Layout, Menu, Breadcrumb } from 'antd';
 import '../static/css/AdminIndex.css';
 
-import { Route} from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
+
+import Home from './Home';
+import LeftNav from '../components/left-nav'; // 侧边导航
+import Header from '../components/header'; // 头部
 import AddArticle from './AddArticle.js';   // 添加文章
 import ArticleList from './ArticleList.js';  // 文章列表
+import Bar from './charts/Bar';
+import Line from './charts/Line';
+import Pie from './charts/Pie';
+import User from './User';
 
 
 const { Content, Footer, Sider } = Layout;
-const { SubMenu } = Menu;
 
 const AdminIndex = (props) => {
   const [collapsed, setCollapsed] = useState(false)
-
-  // 路由方法
-  const handleClickArticle = e => {
-    console.log(e.item.props)
-    if (e.key === 'addArticle') {
-      props.history.push('/index/add')
-    } else {
-      props.history.push('/index/list')
-    }
-
-  }
 
   const onCollapse = collapsed => {
     setCollapsed(collapsed)
   };
 
-  const divStyle = {
-    fontSize: '20px',
-    color: '#fff',
-  }
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Sider collapsible collapsed={collapsed} onCollapse={onCollapse}>
-        <div className="logo" style={divStyle}>React blog admin</div>
-        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-          <Menu.Item key="1">
-            <Icon type="pie-chart" />
-            <span>工作台</span>
-          </Menu.Item>
-          <Menu.Item key="2">
-            <Icon type="desktop" />
-            <span>添加文章</span>
-          </Menu.Item>
-
-
-          <SubMenu
-            key="sub1"
-            onClick={handleClickArticle}
-            title={
-              <span>
-                <Icon type="file" />
-                <span>文章管理</span>
-              </span>
-            }
-          >
-            <Menu.Item key="addArticle">添加文章</Menu.Item>
-            <Menu.Item key="articleList">文章列表</Menu.Item>
-          </SubMenu>
-
-
-
-          <Menu.Item key="9">
-            <Icon type="user" />
-            <span>留言管理</span>
-          </Menu.Item>
-        </Menu>
+        <LeftNav />
       </Sider>
       <Layout>
+        <Header />
         <Content style={{ margin: '0 16px' }}>
           <Breadcrumb style={{ margin: '16px 0' }}>
             <Breadcrumb.Item>后台管理</Breadcrumb.Item>
@@ -77,14 +38,20 @@ const AdminIndex = (props) => {
           </Breadcrumb>
           <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>,
             <div>
-            <Route path="/index/" exact  component={AddArticle} />
-            <Route path="/index/add/" exact   component={AddArticle} />
-            <Route path="/index/add/:id"  exact   component={AddArticle} />
-            <Route path="/index/list/"   component={ArticleList} />
+              <Switch>
+              <Route path="/index/" component={Home} />
+              <Route path="/index/add" component={AddArticle} />
+              <Route path="/index/add/:id" component={AddArticle} />
+              <Route path="/index/list" component={ArticleList} />
+              <Route path="/index/user" component={User}/>
+              <Route path="/index/charts/bar" component={Bar} />
+              <Route path="/index/charts/line" component={Line} />
+              <Route path="/index/charts/pie" component={Pie} />
+              </Switch>
             </div>
           </div>
         </Content>
-        <Footer style={{ textAlign: 'center' }}>JSPang.com</Footer>
+        <Footer style={{ textAlign: 'center', fontSize: '18px' }}>推荐使用谷歌浏览器</Footer>
       </Layout>
     </Layout>
   )
@@ -92,3 +59,11 @@ const AdminIndex = (props) => {
 
 export default AdminIndex;
 
+// <Route path="/index" component={Home} />
+// <Route path="/index/add" component={AddArticle} />
+// <Route path="/index/add/:id" component={AddArticle} />
+// <Route path="/index/list" component={ArticleList} />
+// <Route path="/user" component={User}/>
+// <Route path="/index/charts/bar" component={Bar} />
+// <Route path="/index/charts/line" component={Line} />
+// <Route path="/index/charts/pie" component={Pie} />

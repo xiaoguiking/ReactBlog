@@ -494,7 +494,7 @@ const checkLogin = () => {
 ```
 <Router>
             <Route path='/' exact component={Login}  />
-            <Route path='/index/' exact component={AdminIndex}  />
+            <Route path='/index/'  component={AdminIndex}  />   需要删除exact
         </Router>
 ```
 
@@ -986,7 +986,7 @@ export default ArticleList
 
 >  编写 admin 路由
 
-页面  ``admin/src/pages/AdminIndex.js``
+页面  `admin/src/pages/AdminIndex.js`
 
 ```
 import ArticleList from './ArticleList'
@@ -994,7 +994,7 @@ import ArticleList from './ArticleList'
 const handleClickArticle = e => {
  console.log(e.item.props);
  if(e.key === 'addArticle') {
-  porps.history.push ('/index/add'); 
+  props.history.push ('/index/add'); 
  }else {
  props.history.push('/index/list');
  }

@@ -53,6 +53,7 @@ const Login = (props) => {
             if (res.data.data === '登录成功') {
                 localStorage.setItem('openId', res.data.openId);
                 props.history.push('/index');
+                message.success('登录成功,欢迎归来');
             } else {
                 message.error('用户名或者密码错误');
             }
@@ -72,7 +73,7 @@ const Login = (props) => {
                         prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
                         onChange={onChangeName}
                     />
-                    <br /> <br />
+                    <br/> <br/>
                     <Input.Password
                         id="password"
                         size="large"

@@ -69,7 +69,7 @@ const AddArticle = (props) => {
 			header: { 'Access-Control-Allow-Origin': '*' },
 			withCredentials: true   // 跨域进行访问
 		}).then((res) => {
-			if (res.data.data == '没有登录') {
+			if (res.data.data === '没有登录') {
 				localStorage.removeItem('openId');
 				props.history.push('/');
 			} else {
@@ -115,7 +115,7 @@ const AddArticle = (props) => {
 		const dateText= showDate.replace('-','/')
 		dataProps.addTime = (new Date(dateText).getTime())/1000;
 		
-		if(articleId == 0){
+		if(articleId === 0){
 			console.log('articleId=:', articleId);
 			// dataProps.view_count = Math.ceil(Math.random()*100+1000);
 			dataProps.view_count = 0 ;
