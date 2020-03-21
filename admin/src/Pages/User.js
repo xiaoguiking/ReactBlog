@@ -1,8 +1,15 @@
 import React from 'react';
+import '../static/css/User.css'
 
 const User = () => {
     return (
-        <div>User</div>
+        <div>
+        <div class="wrap">
+			<ul>
+                2123
+			</ul>
+		</div>
+        </div>
     )
 }
 export default User;

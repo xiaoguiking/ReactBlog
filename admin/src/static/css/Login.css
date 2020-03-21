@@ -5,5 +5,5 @@
 }
 body{
     background-color: #f0f0f0;
-    background-image: url(../img/backup.jpg);
+    background: no-repeat  url(../img/backup.jpg);
 }
