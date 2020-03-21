@@ -1,0 +1,6 @@
+.home {
+    background-image: url('../img/background.jpg');
+    width: 1366px;
+    height: 768px;
+    transform: rotateX(45deg);
+}

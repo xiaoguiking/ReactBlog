@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Layout, Menu, Breadcrumb } from 'antd';
 import '../static/css/AdminIndex.css';
 
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route} from 'react-router-dom';
 
 import Home from './Home';
 import LeftNav from '../components/left-nav'; // 侧边导航
@@ -39,7 +39,7 @@ const AdminIndex = (props) => {
           <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>,
             <div>
               <Switch>
-            
+              <Route path="/index" exact component={Home} />
               <Route path="/index/add" exact component={AddArticle} />
               <Route path="/index/add/:id" exact component={AddArticle} />
               <Route path="/index/list" component={ArticleList} />
