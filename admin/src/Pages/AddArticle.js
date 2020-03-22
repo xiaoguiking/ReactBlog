@@ -3,6 +3,8 @@ import '../static/css/AddArticle.css';
 import marked from 'marked';
 import { Row, Col, Input, Select, Button, DatePicker, message } from 'antd';
 
+
+
 import servicePath from '../config/apiUrl';
 import axios from 'axios';
 
@@ -59,7 +61,7 @@ const AddArticle = (props) => {
 			setArticleId(tmpId);
 			getArticleById(tmpId); // 刚才的方法传递id
 		}
-	}, [props.match.params.id])
+	},[])
 
 	// 获取文章类别 axios
 	const getTypeInfo = () => {

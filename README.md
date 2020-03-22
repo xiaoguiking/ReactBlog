@@ -6,6 +6,9 @@
   -  中台 service
   -  后台admin
 
+[TOC]
+
+
 #Bug 记录
 没有exact时候导致页面没有传递相对应的数据
 体验在修改文章
@@ -221,3 +224,87 @@ export default withRouter(Header);
 ```
 
 
+
+
+### 48ajax添加优化（admin）配置配置代理，解决开发时候ajax请求跨域问题
+`admin/config/ajax.js`和`admin/config/index.js`
+
+`package.json`
+"proxy": 'http://localhost: 70001',
+webpack-dev-sever http-proxy-middleware(代理中间件)
+
+```
+/**
+ * 包含应用中所有请求接口的函数 接口请求函数
+ * 
+ */
+
+import ajax from './ajax';
+
+// import qs from 'qs';
+
+const BASE = '';
+
+// 最简写法
+export const reqLogin = (username, pwssword) = ajax.post(BASE + '/login', {username, pwssword});
+
+// 第二种写法
+// export const reqLogin = (username, password) => (
+//     ajax({ // 默认是使用json格式的请求体携带数据
+//         method: 'post',
+//         url: BASE + '/login',
+//         data: {
+//             username,
+//             password
+//         }
+//        // data: qs.stringify({username, password})  // coded模式
+//     })
+// )
+
+
+ // 请求登录 第一种写法
+//  export function reqLogin(username, password){
+//      return ajax({ // 默认是使用json格式的请求体携带数据
+//          method: 'post',
+//          url: BASE + '/login',
+//          data: {
+//              username,
+//              password
+//          }
+//         // data: qs.stringify({username, password})  // coded模式
+//      })
+//  } 
+
+ const name = 'admin',
+ const pwd = '123';
+
+ reqLogin(name, pwd).then(result => { // respon.data值
+    // const result = response.data;
+    console.log('请求成功', result);
+
+ })
+```
+> 如何使用
+
+```
+import {reqLogin} from '../api/index.js'
+(async(err, {username, password}) => {
+    const result = await reqLogin(username, password);
+    <!-- try{} catch{} -->
+    if(result.state === 0) {
+        //code 登录成功跳转
+    }else {
+        失败
+    }
+})
+
+```
+
+#### async/await 理解和使用
+1） 理解
+    简化promise对象的使用: 不再使用then()指定回调函数
+    能同步编码方式实现异步流程
+2）使用
+    哪里使用await？ 在返回promise对象的表达式的左侧，左侧得到不再是promise，而是promise异步成功
+
+    哪里使用async？ await所在最近函数定义的左侧
