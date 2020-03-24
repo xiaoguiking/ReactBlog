@@ -8,7 +8,8 @@ import menuList from '../../config/menuConfig';
 const { SubMenu } = Menu;
 const LeftNav = (props) => {
     // 请求的路径
-    const path = props.location.pathname;
+    // const path = props.location.pathname;
+    
     // 第一种方案侧边栏渲染  map + 递归
     // const getNavNode = (menuList) => {
     //     return menuList.map((item) => {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Layout, Menu, Breadcrumb } from 'antd';
+import { Layout, Breadcrumb } from 'antd';
 import '../static/css/AdminIndex.css';
 
 import { Switch, Route} from 'react-router-dom';

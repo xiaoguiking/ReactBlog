@@ -81,7 +81,7 @@ const AddArticle = (props) => {
 		})
 	}
 
-	// 选择文章类别
+	// 选择文章类别 egg.js ,react课程
 	const selectTypeHandler = (value) => {
 		setSelectType(value);
 	}

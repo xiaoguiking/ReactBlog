@@ -51,9 +51,16 @@ const Login = (props) => {
             console.log(res.data, 'post 发送数据');
             setIsLoading(false);
             if (res.data.data === '登录成功') {
-                localStorage.setItem('openId', res.data.openId);
+                
+                // localStorage存取多个key
+                let lcoVal = {
+                    userName: res.data.userName,
+                    openId: res.data.openId
+                }
+                localStorage.setItem('lcoVal', JSON.stringify(lcoVal));
+                
                 props.history.push('/index');
-                message.success('登录成功,欢迎归来');
+                message.success(`登录成功,欢迎${userName}归来` );
             } else {
                 message.error('用户名或者密码错误');
             }

@@ -25,7 +25,7 @@ const Header= (props) => {
         <div className="header">
             <div className="header-top">
                 欢迎admin
-                <a onClick={handleOut}>退出</a>
+                <a href=':javascript' onClick={handleOut}>退出</a>
             </div>
             <div className="header-bottom">
                 <div className="header-bottom-left">首页</div>

@@ -302,9 +302,79 @@ import {reqLogin} from '../api/index.js'
 
 #### async/await 理解和使用
 1） 理解
-    简化promise对象的使用: 不再使用then()指定回调函数
-    能同步编码方式实现异步流程
+   -  简化promise对象的使用: 不再使用then()指定回调函数
+   - 能同步编码方式实现异步流程
 2）使用
-    哪里使用await？ 在返回promise对象的表达式的左侧，左侧得到不再是promise，而是promise异步成功
+   -  哪里使用await？ 在返回promise对象的表达式的左侧，左侧得到不再是promise，而是promise异步成功
 
-    哪里使用async？ await所在最近函数定义的左侧
+   -  哪里使用async？ await所在最近函数定义的左侧
+
+
+
+### 49 优化登录功能localStorage
+
+`admin/src/login.js`
+```
+        // localStorage存取多个key
+        let lcoVal = {
+            userName: res.data.userName,
+            openId: res.data.openId
+        }
+        localStorage.setItem('lcoVal', JSON.stringify(lcoVal));
+        
+        props.history.push('/index');
+        message.success(`登录成功,欢迎${userName}归来` );
+```
+`admin/src/Home.js`
+```
+读取保存的userName,如果不存在，直接跳转到登录页面
+const userName = JSON.parse(localStorage.getItem('userName')||'{}');
+if(!id){
+    //this.props.history.replace('/login');事件回调函数
+    // 自动跳转到指定路由路径
+    return <Redirect to="/" />
+}
+```
+
+**utils工具函数模块**
+
+- 封装localStorage
+```
+/**
+ *操作local数据工具函数模块
+ */
+ const USERNAME = 'userName';
+ // 全部暴露
+ export default {
+    //  const USERNAEME = 'userName';
+     // 保存
+    saveUser(user){
+        localStorage.setItem(USERNAME, JSON.stringify(user));
+    },
+    /**
+     * 获取， 返回一个user对象，如果没有返回{}
+     */
+    getUser(){
+        return JSON.parse(localStorage.getItem(USERNAME)|| '{}');
+    },
+    // 清除
+    removeUser(){
+        localStorage.removeItem(USERNAME);
+    },
+ }
+
+
+//  单独暴露
+// export const saveUser(){
+
+// }
+```
+- 使用
+```
+import storageUtils from './storageUtils';
+
+storageUtils.saveUser(user);
+```
+
+**引入封装好的store**
+

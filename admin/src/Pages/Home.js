@@ -1,6 +1,9 @@
 import React from 'react';
 import '../static/css/Home.css';
+// import {Redirect} from  'react-router-dom';
+
 const Home = () => {
+
     return (
         <div>
             <div className="home">   
