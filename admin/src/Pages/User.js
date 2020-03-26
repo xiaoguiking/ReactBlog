@@ -4,7 +4,7 @@ import '../static/css/User.css'
 const User = () => {
     return (
         <div>
-        <div class="wrap">
+        <div className="wrap">
 			<ul>
                 2123
 			</ul>

@@ -378,3 +378,30 @@ storageUtils.saveUser(user);
 
 **引入封装好的store**
 
+
+
+
+
+### 50 title首页切换显示（header）
+
+```
+    //根据当前请求的path得到对应的title 双层遍历
+    const getTitle = () => {
+        let title = '';
+        const path = props.location.pathname;
+        menuList.forEach( item => {
+            if(item.key === path){
+                title = item.title;
+            }else if(item.children){
+                const cItem = item.children.find(cItem => cItem.key === path)
+                if(cItem){
+                    title = cItem.title;
+                }
+            }
+           
+        })
+        return title
+    }
+
+   const title = getTitle();
+```
