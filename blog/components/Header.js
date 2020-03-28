@@ -41,27 +41,29 @@ const Header = () => {
 
     return (
         <div className="header">
-            <Row type= "flex" justify="center">
-            <Col xs={24} sm={24} md={10} lg={15} xl={12}>
-                <span className="header-logo">React Blog</span>
-                <span className="header-txt">专注前端学习 HTML+Css+JavaScript</span>
-            </Col>
-            <Col  xs={0} sm={0} md={14} lg={8} xl={6}>
-               <Menu mode="horizontal" onClick={handleClick}>
-               <Menu.Item key="0">
-               <Icon type="home" />
-               博客首页
-               </Menu.Item>
-               {
-                navArray.map((item) => {
-                    return (
-                        <Menu.Item key={item.Id}><Icon type={item.icon} />{item.typeName}</Menu.Item>
-                    )
-                })
-               }
-               </Menu>
-            </Col>
-            </Row>
+        <div className="header-container">
+        <Row type= "flex" justify="center">
+        <Col xs={24} sm={24} md={10} lg={15} xl={12}>
+            <span className="header-logo">React Blog</span>
+            <span className="header-txt">专注前端学习 HTML+Css+JavaScript</span>
+        </Col>
+        <Col  xs={0} sm={0} md={14} lg={8} xl={6}>
+           <Menu mode="horizontal" onClick={handleClick}>
+           <Menu.Item key="0">
+           <Icon type="home" />
+           博客首页
+           </Menu.Item>
+           {
+            navArray.map((item) => {
+                return (
+                    <Menu.Item key={item.Id}><Icon type={item.icon} />{item.typeName}</Menu.Item>
+                )
+            })
+           }
+           </Menu>
+        </Col>
+        </Row>
+        </div>
         </div>
     )
 }

@@ -1,14 +1,18 @@
+import { Progress } from 'antd';
 import '../public/style/components/advert.css';
 
-const style = {
-    width: '200px',
-    height: '200px',
-    backgroundColor: 'blue',
-}
+
 const Advert = () => {
     return (
         <div className="ad-div comm-box">
-            <div style={style}>123</div>
+        <p>HTML5</p>
+        <Progress percent={30} size="small" />
+        <p>CSS3</p>
+        <Progress percent={50} size="small" status="active" />
+        <p>React</p>
+        <Progress percent={70} size="small" status="exception" />
+        <p>Vue</p>
+        <Progress percent={100} size="small" />
         </div>
     )
 }
