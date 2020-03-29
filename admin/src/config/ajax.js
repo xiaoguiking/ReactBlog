@@ -1,4 +1,5 @@
 /**
+ * ajax函数
  * 封装axios能发ajax函数
  * 1.解决post请求携带参数问题，默认是json需要转换成urlencode格式
  * 2.请求成功的结果不是response，而是直接数据response.data值
@@ -7,8 +8,10 @@
 
 import axios from 'axios';
 import {message} from 'antd';
+import qs from 'qs';
 // 添加请求拦截器，让post请求的数据格式体为urlencoded格式， a=1&b==2
 // 真正发送请求前执行
+
 axios.interceptors.request.use(function (config) {
     // 在发送请求之前做些什么
     // 得的请求方式请求体数据
@@ -45,4 +48,4 @@ axios.interceptors.response.use(function (response) {
 
 
 
-export default ajax;
+export default axios;

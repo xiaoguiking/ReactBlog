@@ -4,10 +4,9 @@ import {withRouter} from 'react-router-dom';
 import '../../static/css/header.css';
 import menuList from '../../config/menuConfig';
 import moment from 'moment';
+import {reqWeather} from '../../config/index';
 
 const { confirm } = Modal;
-
-
 
 const Header= (props) => {
 
@@ -48,9 +47,25 @@ const Header= (props) => {
    const title = getTitle();
 
     // 显示时间
-   
     const [time, setTime] = useState(moment().format('YYYY-MM-DD HH:mm:ss'));
+    // 显示天气
+    const [weather, setWeather] = useState(''); 
+    // 显示图片
+    const [dayPictureUrl, setdayPictureUrl] = useState('');
+  
 
+    // 获取天气信息显示
+    const getWeather = async () => {
+        const {weather, dayPictureUrl} = await reqWeather('北京');
+        setWeather(weather);
+        setdayPictureUrl(dayPictureUrl);
+    }
+    // 显示天气jsonp 请求
+    useEffect(() => {
+        getWeather();
+    }, [])
+
+    // 显示时间
     useEffect(() => {
         // 启动定时器
         const timer = setInterval(() => {
@@ -59,8 +74,7 @@ const Header= (props) => {
         // 清除定时器
         return () => {
             clearInterval(timer);
-        }
-       
+        } 
     }, [])
 
     return (
@@ -73,8 +87,8 @@ const Header= (props) => {
                 <div className="header-bottom-left">{title}</div>
                 <div className="header-bottom-right">
                     <span>{time}</span>
-                    <img src="http://api.map.baidu.com/images/weather/day/duoyun.png" alt="weather"/>
-                    <span>晴天</span>
+                    <img src={dayPictureUrl} alt="weather"/>
+                    <span>{weather}</span>
                 </div>
             </div>
         </div>

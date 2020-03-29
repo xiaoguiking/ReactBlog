@@ -4,7 +4,7 @@ import '../static/css/User.css'
 
 
 
-const columns = [
+ const columns = [
     {
       title: 'Name',
       dataIndex: 'name',
@@ -81,9 +81,10 @@ const User = () => {
     return (
         <div>
         <div className="wrap">
-            <Table columns={columns} dataSource={data} />
+        <Table columns={columns} dataSource={data} />
 		</div>
         </div>
     )
 }
 export default User;
+

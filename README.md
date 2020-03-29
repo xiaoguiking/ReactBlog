@@ -175,8 +175,6 @@ export default LeftNav;
 ### 46引入echarts
 
 
-
-
 ### 47header修改
 ```
 import React from 'react';
@@ -404,4 +402,40 @@ storageUtils.saveUser(user);
     }
 
    const title = getTitle();
+```
+
+###  51 Header_jsonp请求显示天气信息
+
+- 安装jsonp 请求方式
+yarn add jsonp
+
+- 引用使用 `admin/src/config/index.js`发送jsonp 请求得到天气信息
+```
+http://api.map.baidu.com/telematics/v3/weather?location=上海&output=json&ak=[ak密钥]
+
+http://api.map.baidu.com/telematics/v3/weather?location=${city}&output=json&ak=3p49MVra6urFRGOT9s8UBWr2
+
+```
+- 具体写法
+
+```
+// 发送jsonp请求得到天气信息
+
+export default reqWeather = (city) => {
+// 执行器函数： 内部去执行异步任务
+// 成功调用resolve(), 失败了不调用reject(),直接提示错误
+    return new Promise((resolve, reject) => {
+        cont url = `http://api.map.baidu.com/telematics/v3/weather?location=${city}&output=json&ak=3p49MVra6urFRGOT9s8UBWr2`;
+    jsonp(url,{}, (error, data) => {
+        if(!error && data.error === 0){
+            const {dayPictureUrl, weather} = data.results[0].weather_data[0];
+            resolve({dayPictureUrl, weather}) // 成功的
+        }else { // 失败的
+            message.error('获取天气信息失败');
+        }
+    })
+    })
+}
+
+
 ```
