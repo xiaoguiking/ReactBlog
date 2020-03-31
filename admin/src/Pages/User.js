@@ -1,6 +1,8 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { Table, Tag } from 'antd';
 import '../static/css/User.css'
+import axios from 'axios';
+
 
 
 
@@ -9,7 +11,7 @@ import '../static/css/User.css'
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
-      render: text => <a>{text}</a>,
+      render: text => <a href="/#">{text}</a>,
     },
     {
       title: 'Age',
@@ -29,9 +31,9 @@ import '../static/css/User.css'
         <span>
           {tags.map(tag => {
             let color = tag.length > 5 ? 'geekblue' : 'green';
-            if (tag === 'loser') {
-              color = 'volcano';
-            }
+            // if (tag === 'loser') {
+            //   color = 'volcano';
+            // }
             return (
               <Tag color={color} key={tag}>
                 {tag.toUpperCase()}
@@ -46,42 +48,32 @@ import '../static/css/User.css'
       key: 'action',
       render: (text, record) => (
         <span>
-          <a style={{ marginRight: 16 }}>Invite {record.name}</a>
-          <a>Delete</a>
+          <a href="/#" style={{ marginRight: 16 }}>Invite {record.name}</a>
+          <a href="/#" >Delete</a>
         </span>
       ),
     },
   ];
 
-  const data = [
-    {
-      key: '1',
-      name: 'John Brown',
-      age: 32,
-      address: 'New York No. 1 Lake Park',
-      tags: ['nice', 'developer'],
-    },
-    {
-      key: '2',
-      name: 'Jim Green',
-      age: 42,
-      address: 'London No. 1 Lake Park',
-      tags: ['loser'],
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park',
-      tags: ['cool', 'teacher'],
-    },
-  ];
-  
+
+
 const User = () => {
+const [list, setList] = useState([])
+  const getList = () =>  {
+    axios('http://yapi.demo.qunar.com/mock/14846/getPersonList').then((res) => {
+     setList(res.data.data);
+    console.log(res.data.data, 'data');
+    })
+  }
+  
+  useEffect(() => {
+    getList();
+  },[])
+  
     return (
         <div>
         <div className="wrap">
-        <Table columns={columns} dataSource={data} />
+        <Table columns={columns} dataSource={list} />
 		</div>
         </div>
     )

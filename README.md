@@ -167,9 +167,13 @@ const LeftNav = () => {
 }
 
 export default LeftNav;
-
-
 ```
+
+**使用路由hooks**
+- useHistory
+- useLocation
+- useParams
+- useRouteMatch
 
 
 ### 46引入echarts

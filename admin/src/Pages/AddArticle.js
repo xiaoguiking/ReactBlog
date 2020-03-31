@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../static/css/AddArticle.css';
 import marked from 'marked';
 import { Row, Col, Input, Select, Button, DatePicker, message } from 'antd';
-
-
+import {useParams} from 'react-router-dom';
 
 import servicePath from '../config/apiUrl';
 import axios from 'axios';
@@ -13,6 +12,7 @@ const { Option } = Select;
 
 const AddArticle = (props) => {
 
+	let {Id} = useParams();
 	//  添加文章页面的整体 业务逻辑
 	const [articleId, setArticleId] = useState(0)  // 文章的ID，如果是0说明是新增加，如果不是0，说明是修改
 	const [articleTitle, setArticleTitle] = useState('')   //文章标题
@@ -57,11 +57,11 @@ const AddArticle = (props) => {
 		// eslint-disable-next-line 
 		getTypeInfo();
 		// 获取文章指定id 进行显示修改
-	    let tmpId = props.match.params.id;  // 接受修改文章传过来的id
-		console.log(tmpId, 'tmpId');
-		if(tmpId){
-			setArticleId(tmpId);
-			getArticleById(tmpId); // 刚才的方法传递id
+	    // let tmpId = props.match.params.id;  // 接受修改文章传过来的id
+		// console.log(tmpId, 'tmpId');
+		if(Id){
+			setArticleId(Id);
+			getArticleById(Id); // 刚才的方法传递id
 		}
 	},[])
 
