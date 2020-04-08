@@ -83,7 +83,7 @@ const LeftNav = (props) => {
     // 高阶组件动态包裹侧边栏渲染得到当前路由的请求路径
     const selectKey = props.location.pathname;
     console.log(selectKey,'selectKey');
-    // console.log(openKey, 'openkey');
+    // console.log(openKey, 'openKey');
     const menuNodes =  getNavNode2(menuList)
     return (
         <div>

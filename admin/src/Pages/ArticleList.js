@@ -19,7 +19,7 @@ function ArticleList(props) {
 	  axios({
 		  method: 'get',
 		  url: servicePath.getArticleList,
-		   withCredentials: true,
+		  withCredentials: true,
 		  header:{ 'Access-Control-Allow-Origin':'*' }
 	  }).then((res) => {
 		  setList(res.data.data);
